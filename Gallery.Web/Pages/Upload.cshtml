@@ -1,0 +1,11 @@
+﻿@page
+@model UploadModel
+@{
+    ViewData["Title"] = "Upload";
+}
+
+<form method="post" enctype="multipart/form-data">
+    <input type="file" required="required" name="files" multiple="multiple" />
+    <!--<input type="file" required="required" multiple="multiple" accept="image/*" />-->
+    <button asp-page-handler="Upload">Upload Files</button>
+</form>
