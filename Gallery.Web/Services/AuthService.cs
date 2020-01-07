@@ -66,7 +66,7 @@ namespace Gallery.Web.Services
 
         public async Task SignOutAsync()
         {
-            await _httpContextAccessor.HttpContext.SignOutAsync();
+            await _httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
         public bool IsLoggedIn()

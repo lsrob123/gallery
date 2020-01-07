@@ -27,7 +27,7 @@ namespace Gallery.Web.Pages
             return RedirectToPage();
         }
 
-        public async Task<IActionResult> OnPostLogoutAsync(string password)
+        public async Task<IActionResult> OnPostLogoutAsync()
         {
             await _authService.SignOutAsync();
             return RedirectToPage();
