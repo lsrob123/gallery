@@ -10,5 +10,8 @@
 
   <ItemGroup>
     <Folder Include="Services\" />
+    <Folder Include="Config\" />
+    <Folder Include="TextMaps\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,15 @@
+﻿@page
+@model HashingModel
+@{
+    ViewData["Title"] = "Hashing";
+}
+
+<form method="post">
+    <input type="password" required="required" name="password" />
+    <button asp-page-handler="Hash">Hash</button>
+</form>
+
+<div class="top-gap">
+    @Model.HashedPassword
+</div>
+

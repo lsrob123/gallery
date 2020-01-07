@@ -1,0 +1,25 @@
+﻿@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<form method="post">
+    <input type="password" required="required" name="password" />
+    <button asp-page-handler="Login">Log In</button>
+</form>
+
+<div class="top-gap">
+    <button asp-page-handler="Logout">Log Out</button>
+</div>
+
+<div class="top-gap">
+        @if (Model.IsLoggedIn)
+        {
+            <span>You are logged in</span>
+        } else
+        {
+            <span class="error-message">You are logged out</span>
+        }
+</div>
+
