@@ -8,13 +8,18 @@ namespace Gallery.Web.Pages
     public class LoginModel : PageModel
     {
         private readonly IAuthService _authService;
+        private readonly ITextMapService _textMapService;
 
         public bool IsLoggedIn => _authService.IsLoggedIn();
         public string UserName => _authService.GetUser();
 
-        public LoginModel(IAuthService authService)
+        public string LogIn => _textMapService.GetMap("Log In");
+        public string LogOut => _textMapService.GetMap("Log Out");
+
+        public LoginModel(IAuthService authService, ITextMapService textMapService)
         {
             _authService = authService;
+            _textMapService = textMapService;
         }
 
         public void OnGet()

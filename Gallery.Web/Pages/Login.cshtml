@@ -6,12 +6,12 @@
 
 <form method="post">
     <input type="password" required="required" name="password" />
-    <button asp-page-handler="Login">Log In</button>
+    <button asp-page-handler="Login">@Model.LogIn</button>
 </form>
 
 <div class="top-gap">
     <form method="post">
-        <button asp-page-handler="Logout">Log Out</button>
+        <button asp-page-handler="Logout">@Model.LogOut</button>
     </form>
 </div>
 

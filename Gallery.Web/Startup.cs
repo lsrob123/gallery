@@ -31,6 +31,7 @@ namespace Gallery.Web
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddSingleton<IAuthService, AuthService>();
+            services.AddSingleton<ITextMapService, TextMapService>();
 
             services.AddAuthentication(options =>
             {
