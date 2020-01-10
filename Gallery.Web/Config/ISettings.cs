@@ -4,5 +4,6 @@
     {
         string HashedPassword { get; }
         string TextMapFilePath { get; }
+        string UploadImageRootPath { get; }
     }
 }

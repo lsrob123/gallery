@@ -32,6 +32,7 @@ namespace Gallery.Web
 
             services.AddSingleton<IAuthService, AuthService>();
             services.AddSingleton<ITextMapService, TextMapService>();
+            services.AddSingleton<IUploadImageService, UploadImageService>();
 
             services.AddAuthentication(options =>
             {
@@ -57,7 +58,7 @@ namespace Gallery.Web
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.UseFileServer();
 
             app.UseRouting();
 
