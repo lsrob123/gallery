@@ -13,6 +13,7 @@ namespace Gallery.Web.Config
 
         public string HashedPassword => _configuration.GetValue<string>(nameof(HashedPassword));
         public string TextMapFilePath => _configuration.GetValue<string>(nameof(TextMapFilePath));
+        public int ThumbnailHeight => _configuration.GetValue<int>(nameof(ThumbnailHeight));
         public string UploadImageRootPath => _configuration.GetValue<string>(nameof(UploadImageRootPath));
     }
 }

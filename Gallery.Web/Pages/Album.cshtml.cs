@@ -19,7 +19,7 @@ namespace Gallery.Web.Pages
             _uploadImageService = uploadImageService;
         }
 
-        public string AlbumName { get; set; }
+        public string AlbumName { get; set; } = "_test";
         public IEnumerable<UploadImageModel> UploadResults { get; set; }
 
         public void OnGet()

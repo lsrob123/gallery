@@ -1,11 +1,13 @@
-﻿using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using System.IO;
+using System.Text.Json.Serialization;
 
 namespace Gallery.Web.Models
 {
     public class UploadImageModel
     {
-        public UploadImageModel(IFormFile formFile, string processedFileName, string albumName, string thumbnailFileName = null)
+        public UploadImageModel(IFormFile formFile, string processedFileName, string albumName,
+            string thumbnailFileName = null)
         {
             FormFile = formFile;
             ProcessedFileName = processedFileName;
@@ -15,35 +17,46 @@ namespace Gallery.Web.Models
 
             ThumbnailFileName = thumbnailFileName;
             if (string.IsNullOrWhiteSpace(ThumbnailFileName))
-                ThumbnailFileName = $"_tn_${ProcessedFileName}";
+                ThumbnailFileName = $"_tn_{ProcessedFileName}";
         }
 
-        public bool IsSuccess { get; protected set; }
         [JsonIgnore]
         public IFormFile FormFile { get; }
+
+        public bool IsSuccess { get; protected set; }
         public string OriginalFileName => FormFile?.Name;
         public string ProcessedFileName { get; protected set; }
         public string ThumbnailFileName { get; protected set; }
         public string Uri { get; protected set; }
 
-        public UploadImageModel WithinAlbum(string albumName)
+        public string GetProcessedFilePath(string rootPath)
         {
-            Uri = $"{albumName.Trim().TrimStart('/').TrimEnd('/')}/{ProcessedFileName}";
-            return this;
+            return Path.Combine(rootPath, ProcessedFileName);
         }
 
-        public UploadImageModel AsSuccessful()
+        public string GetThumbnailFilePath(string rootPath)
         {
-            IsSuccess = true;
-            return this;
+            return Path.Combine(rootPath, ThumbnailFileName);
         }
 
-        public UploadImageModel AsFailed()
+        public UploadImageModel MarkAsFailed()
         {
             IsSuccess = false;
             ProcessedFileName = null;
             ThumbnailFileName = null;
             Uri = null;
+            return this;
+        }
+
+        public UploadImageModel MarkAsSucceeded()
+        {
+            IsSuccess = true;
+            return this;
+        }
+
+        public UploadImageModel WithinAlbum(string albumName)
+        {
+            Uri = $"{albumName.Trim().TrimStart('/').TrimEnd('/')}/{ProcessedFileName}";
             return this;
         }
     }

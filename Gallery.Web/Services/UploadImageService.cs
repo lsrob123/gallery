@@ -22,7 +22,8 @@ namespace Gallery.Web.Services
             _logger = logger;
         }
 
-        public async Task<IEnumerable<UploadImageModel>> ProcessUploadFilesAsync(ICollection<IFormFile> files, string albumName)
+        public async Task<IEnumerable<UploadImageModel>> ProcessUploadFilesAsync(ICollection<IFormFile> files, 
+            string albumName)
         {
             var results = new List<UploadImageModel>();
             if ((files is null) || !files.Any())
@@ -37,35 +38,43 @@ namespace Gallery.Web.Services
 
             foreach (var file in files)
             {
-                _logger.LogInformation(file.FileName);
+                var processedFileModel = new UploadImageModel(file, file.FileName, albumName);
 
-                var processedFileName = $"{albumName}-{file.Name}";
-                var processedFilePath = Path.Combine(albumPath, processedFileName);
-                if (File.Exists(processedFilePath))
-                {
-                    //TODO: Add suffix to file name 
-                }
-
-                var result = new UploadImageModel(file, processedFileName, albumName);
+                var processedFilePath = processedFileModel.GetProcessedFilePath(albumPath);
+                CheckFileExistence(albumPath, processedFilePath, processedFileModel);
 
                 try
                 {
                     using (var fileStream = new FileStream(processedFilePath, FileMode.Create, FileAccess.Write))
                     {
                         await file.CopyToAsync(fileStream);
-                        result = result.AsSuccessful();
+                        processedFileModel = processedFileModel.MarkAsSucceeded();
                     }
                 }
                 catch (Exception e)
                 {
                     _logger.LogError(e, e.Message);
-                    result = result.AsFailed();
+                    processedFileModel = processedFileModel.MarkAsFailed();
                 }
 
-                results.Add(result);
+                results.Add(processedFileModel);
             }
 
             return results;
+        }
+
+        private static void CheckFileExistence(string albumPath, string processedFilePath, 
+            UploadImageModel processedFileModel)
+        {
+            if (File.Exists(processedFilePath))
+            {
+                File.Delete(processedFilePath);
+            }
+            var thumbnailFilePath = processedFileModel.GetThumbnailFilePath(albumPath);
+            if (File.Exists(thumbnailFilePath))
+            {
+                File.Delete(thumbnailFilePath);
+            }
         }
     }
 }
