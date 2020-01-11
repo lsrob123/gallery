@@ -14,12 +14,17 @@ namespace Gallery.Web.Services
     public class UploadImageService : IUploadImageService
     {
         private readonly string _uploadImageRootPath;
+        private readonly ISettings _settings;
         private readonly ILogger<UploadImageService> _logger;
+        private readonly IImageProcessService _imageProcessService;
 
-        public UploadImageService(IWebHostEnvironment env, ISettings settings, ILogger<UploadImageService> logger)
+        public UploadImageService(IWebHostEnvironment env, ISettings settings, ILogger<UploadImageService> logger,
+            IImageProcessService imageProcessService)
         {
-            _uploadImageRootPath = Path.Combine(env.WebRootPath, settings.UploadImageRootPath);
+            _settings = settings;
+            _uploadImageRootPath = Path.Combine(env.WebRootPath, _settings.UploadImageRootPath);
             _logger = logger;
+            _imageProcessService = imageProcessService;
         }
 
         public async Task<IEnumerable<UploadImageModel>> ProcessUploadFilesAsync(ICollection<IFormFile> files, 
@@ -48,13 +53,17 @@ namespace Gallery.Web.Services
                     using (var fileStream = new FileStream(processedFilePath, FileMode.Create, FileAccess.Write))
                     {
                         await file.CopyToAsync(fileStream);
-                        processedFileModel = processedFileModel.MarkAsSucceeded();
                     }
+                    processedFileModel.MarkAsSucceeded();
+
+                    await _imageProcessService.ResizeByHeightAsync(processedFilePath,
+                        processedFileModel.GetThumbnailFilePath(albumPath),
+                        _settings.ThumbnailHeight);
                 }
                 catch (Exception e)
                 {
                     _logger.LogError(e, e.Message);
-                    processedFileModel = processedFileModel.MarkAsFailed();
+                    processedFileModel.MarkAsFailed();
                 }
 
                 results.Add(processedFileModel);

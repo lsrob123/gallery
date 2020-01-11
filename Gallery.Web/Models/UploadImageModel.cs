@@ -10,14 +10,16 @@ namespace Gallery.Web.Models
             string thumbnailFileName = null)
         {
             FormFile = formFile;
-            ProcessedFileName = processedFileName;
+            ProcessedFileName = processedFileName.Replace('_', '-').Replace(' ', '-');
             WithinAlbum(albumName);
             if (string.IsNullOrWhiteSpace(ProcessedFileName))
                 return;
 
             ThumbnailFileName = thumbnailFileName;
-            if (string.IsNullOrWhiteSpace(ThumbnailFileName))
-                ThumbnailFileName = $"_tn_{ProcessedFileName}";
+            if (!string.IsNullOrWhiteSpace(ThumbnailFileName))
+                return;
+
+            ThumbnailFileName = $"{Path.GetFileNameWithoutExtension(ProcessedFileName)}-small.jpg";
         }
 
         [JsonIgnore]

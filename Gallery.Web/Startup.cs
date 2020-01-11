@@ -32,6 +32,7 @@ namespace Gallery.Web
 
             services.AddSingleton<IAuthService, AuthService>();
             services.AddSingleton<ITextMapService, TextMapService>();
+            services.AddSingleton<IImageProcessService, ImageProcessService>();
             services.AddSingleton<IUploadImageService, UploadImageService>();
 
             services.AddAuthentication(options =>
