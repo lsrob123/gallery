@@ -4,8 +4,11 @@
     ViewData[Constants.PageTitle] = Model.AlbumName;
 }
 
-<form method="post" enctype="multipart/form-data">
-    <input type="file" required="required" name="files" multiple="multiple" />
-    <!--<input type="file" required="required" multiple="multiple" accept="image/*" />-->
-    <button asp-page-handler="Upload">Upload Files</button>
-</form>
+@if (Model.IsLoggedIn)
+{
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" required="required" name="files" multiple="multiple" />
+        <!--<input type="file" required="required" multiple="multiple" accept="image/*" />-->
+        <button asp-page-handler="Upload">Upload Files</button>
+    </form>
+}

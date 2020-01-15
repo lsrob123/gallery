@@ -1,16 +1,18 @@
-﻿using System.Threading.Tasks;
-using Gallery.Web.Abstractions;
+﻿using Gallery.Web.Abstractions;
 using Gallery.Web.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace Gallery.Web.Pages
 {
-    public class LoginModel : GalleryPageModelBase
+    public class LoginModel : GalleryPageModelBase<LoginModel>
     {
         public string LogIn => T.GetMap("Log In");
         public string LogOut => T.GetMap("Log Out");
 
-        public LoginModel(IAuthService authService, ITextMapService textMapService):base(authService, textMapService)
+        public LoginModel(ILoggerFactory loggerFactory, IAuthService authService, ITextMapService textMapService)
+            : base(loggerFactory, authService, textMapService)
         {
         }
 

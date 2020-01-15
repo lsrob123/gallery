@@ -1,20 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Gallery.Web.Abstractions;
+using Gallery.Web.Services;
 using Microsoft.Extensions.Logging;
 
 namespace Gallery.Web.Pages
 {
-    public class IndexModel : PageModel
+    public class IndexModel : GalleryPageModelBase<IndexModel>
     {
-        private readonly ILogger<IndexModel> _logger;
-
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(ILoggerFactory loggerFactory, IAuthService authService, ITextMapService textMapService)
+           : base(loggerFactory, authService, textMapService)
         {
-            _logger = logger;
         }
 
         public void OnGet()
         {
-
         }
     }
 }

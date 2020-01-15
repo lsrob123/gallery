@@ -4,24 +4,20 @@
     ViewData[Constants.PageTitle] = "Login";
 }
 
+@if (!Model.IsLoggedIn)
+{
 <form method="post">
     <input type="password" required="required" name="password" />
     <button asp-page-handler="Login">@Model.LogIn</button>
 </form>
+}
 
+@if (Model.IsLoggedIn)
+{
+<span>You are logged in as @Model.UserName</span>
 <div class="top-gap">
     <form method="post">
         <button asp-page-handler="Logout">@Model.LogOut</button>
     </form>
 </div>
-
-<div class="top-gap">
-        @if (Model.IsLoggedIn)
-        {
-            <span>You are logged in</span>
-        } else
-        {
-            <span class="error-message">You are logged out</span>
-        }
-</div>
-
+}
