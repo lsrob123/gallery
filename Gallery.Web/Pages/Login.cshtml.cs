@@ -1,25 +1,17 @@
 ﻿using System.Threading.Tasks;
+using Gallery.Web.Abstractions;
 using Gallery.Web.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Gallery.Web.Pages
 {
-    public class LoginModel : PageModel
+    public class LoginModel : GalleryPageModelBase
     {
-        private readonly IAuthService _authService;
-        private readonly ITextMapService _textMapService;
+        public string LogIn => T.GetMap("Log In");
+        public string LogOut => T.GetMap("Log Out");
 
-        public bool IsLoggedIn => _authService.IsLoggedIn();
-        public string UserName => _authService.GetUser();
-
-        public string LogIn => _textMapService.GetMap("Log In");
-        public string LogOut => _textMapService.GetMap("Log Out");
-
-        public LoginModel(IAuthService authService, ITextMapService textMapService)
+        public LoginModel(IAuthService authService, ITextMapService textMapService):base(authService, textMapService)
         {
-            _authService = authService;
-            _textMapService = textMapService;
         }
 
         public void OnGet()
@@ -28,13 +20,13 @@ namespace Gallery.Web.Pages
 
         public async Task<IActionResult> OnPostLoginAsync(string password)
         {
-            await _authService.SignInAsync(password);
+            await AuthService.SignInAsync(password);
             return RedirectToPage();
         }
 
         public async Task<IActionResult> OnPostLogoutAsync()
         {
-            await _authService.SignOutAsync();
+            await AuthService.SignOutAsync();
             return RedirectToPage();
         }
     }
