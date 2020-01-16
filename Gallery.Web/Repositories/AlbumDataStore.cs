@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Gallery.Web.Abstractions;
 using Gallery.Web.Models;
 using LiteDB;
@@ -12,7 +13,8 @@ namespace Gallery.Web.Repositories
 
         public AlbumDataStore(ISettings settings)
         {
-            _db = new LiteDatabase(settings.ConnectionString);
+            var connectionString = Path.Combine(Directory.GetCurrentDirectory(), settings.ConnectionString);
+            _db = new LiteDatabase(connectionString);
 
             Albums = _db.GetCollection<Album>(nameof(Album));
             Albums.EnsureIndex(x => x.Name, true);
