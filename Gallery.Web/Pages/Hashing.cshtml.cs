@@ -1,4 +1,4 @@
-﻿using Gallery.Web.Services;
+﻿using Gallery.Web.Abstractions;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Gallery.Web.Pages

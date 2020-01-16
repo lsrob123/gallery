@@ -9,11 +9,11 @@ namespace Gallery.Web.Abstractions
     {
         protected readonly ILogger<T> Logger;
 
-        public GalleryPageModelBase(ILoggerFactory loggerFactory, IAuthService authService, 
+        public GalleryPageModelBase(ILogger<T> logger, IAuthService authService, 
             ITextMapService textMapServic)
             : base(authService, textMapServic)
         {
-            Logger = loggerFactory.CreateLogger<T>();
+            Logger = logger;
         }
     }
 

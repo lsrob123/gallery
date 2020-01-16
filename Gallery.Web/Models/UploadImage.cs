@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
 using System.IO;
 using System.Text.Json.Serialization;
+using Gallery.Web.Abstractions;
+using Microsoft.AspNetCore.Http;
 
 namespace Gallery.Web.Models
 {
-    public class UploadImageModel
+    public class UploadImage
     {
-        public UploadImageModel(IFormFile formFile, string processedFileName, string albumName,
+        public UploadImage(IFormFile formFile, string processedFileName, string albumName,
             string thumbnailFileName = null)
         {
             FormFile = formFile;
@@ -20,6 +22,7 @@ namespace Gallery.Web.Models
                 return;
 
             ThumbnailFileName = $"{Path.GetFileNameWithoutExtension(ProcessedFileName)}-small.jpg";
+            TimeUpdated = DateTimeOffset.UtcNow;
         }
 
         [JsonIgnore]
@@ -30,6 +33,21 @@ namespace Gallery.Web.Models
         public string ProcessedFileName { get; protected set; }
         public string ThumbnailFileName { get; protected set; }
         public string Uri { get; protected set; }
+        public string Description { get; protected set; }
+        public DateTimeOffset TimeUpdated { get; protected set; }
+        public int SequenceNumber { get; protected set; }
+
+        public UploadImage WithDescription(string description)
+        {
+            Description = description;
+            return this;
+        }
+
+        public UploadImage WithSequenceNumber(int sequenceNumber)
+        {
+            SequenceNumber = sequenceNumber;
+            return this;
+        }
 
         public string GetProcessedFilePath(string rootPath)
         {
@@ -41,7 +59,7 @@ namespace Gallery.Web.Models
             return Path.Combine(rootPath, ThumbnailFileName);
         }
 
-        public UploadImageModel MarkAsFailed()
+        public UploadImage MarkAsFailed()
         {
             IsSuccess = false;
             ProcessedFileName = null;
@@ -50,13 +68,13 @@ namespace Gallery.Web.Models
             return this;
         }
 
-        public UploadImageModel MarkAsSucceeded()
+        public UploadImage MarkAsSucceeded()
         {
             IsSuccess = true;
             return this;
         }
 
-        public UploadImageModel WithinAlbum(string albumName)
+        public UploadImage WithinAlbum(string albumName)
         {
             Uri = $"{albumName.Trim().TrimStart('/').TrimEnd('/')}/{ProcessedFileName}";
             return this;

@@ -1,21 +1,20 @@
-﻿using Gallery.Web.Abstractions;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Gallery.Web.Abstractions;
 using Gallery.Web.Models;
-using Gallery.Web.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Gallery.Web.Pages
 {
     public class AlbumModel : GalleryPageModelBase<AlbumModel>
     {
-        private readonly IUploadImageService _uploadImageService;
+        private readonly IAlbumService _uploadImageService;
 
-        public AlbumModel(ILoggerFactory loggerFactory, IUploadImageService uploadImageService,
+        public AlbumModel(ILogger<AlbumModel> logger, IAlbumService uploadImageService,
             IAuthService authService, ITextMapService textMapService)
-            : base(loggerFactory, authService, textMapService)
+            : base(logger, authService, textMapService)
         {
             _uploadImageService = uploadImageService;
         }
@@ -23,7 +22,7 @@ namespace Gallery.Web.Pages
         [BindProperty]
         public string AlbumName { get; set; }
 
-        public IEnumerable<UploadImageModel> UploadResults { get; set; }
+        public IEnumerable<UploadImage> UploadResults { get; set; }
 
         public void OnGet(string albumName)
         {
@@ -32,7 +31,9 @@ namespace Gallery.Web.Pages
 
         public async Task OnPostUploadAsync(ICollection<IFormFile> files)
         {
-            UploadResults = await _uploadImageService.ProcessUploadFilesAsync(files, AlbumName);
+            var album = await _uploadImageService.ProcessUploadFiles(files, AlbumName);
+            UploadResults = album.UploadImages.Values;
+            //TODO Display succeded or failed uploads
         }
     }
 }

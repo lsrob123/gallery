@@ -1,4 +1,4 @@
-﻿namespace Gallery.Web.Services
+﻿namespace Gallery.Web.Abstractions
 {
     public interface ITextMapService
     {

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Gallery.Web.Abstractions;
+using Microsoft.Extensions.Logging;
 using SkiaSharp;
 using System;
 using System.IO;

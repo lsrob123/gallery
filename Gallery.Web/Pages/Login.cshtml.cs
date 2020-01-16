@@ -11,8 +11,8 @@ namespace Gallery.Web.Pages
         public string LogIn => T.GetMap("Log In");
         public string LogOut => T.GetMap("Log Out");
 
-        public LoginModel(ILoggerFactory loggerFactory, IAuthService authService, ITextMapService textMapService)
-            : base(loggerFactory, authService, textMapService)
+        public LoginModel(ILogger<LoginModel> logger, IAuthService authService, ITextMapService textMapService)
+            : base(logger, authService, textMapService)
         {
         }
 

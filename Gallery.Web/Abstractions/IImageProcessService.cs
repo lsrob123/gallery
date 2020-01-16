@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Gallery.Web.Services
+namespace Gallery.Web.Abstractions
 {
     public interface IImageProcessService
     {

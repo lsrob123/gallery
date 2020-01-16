@@ -1,4 +1,4 @@
-﻿namespace Gallery.Web.Config
+﻿namespace Gallery.Web.Abstractions
 {
     public interface ISettings
     {
@@ -6,5 +6,6 @@
         string TextMapFilePath { get; }
         int ThumbnailHeight { get; }
         string UploadImageRootPath { get; }
+        string ConnectionString { get; }
     }
 }

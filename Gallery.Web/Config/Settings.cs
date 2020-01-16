@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Gallery.Web.Abstractions;
+using Microsoft.Extensions.Configuration;
 
 namespace Gallery.Web.Config
 {
@@ -15,5 +16,6 @@ namespace Gallery.Web.Config
         public string TextMapFilePath => _configuration.GetValue<string>(nameof(TextMapFilePath));
         public int ThumbnailHeight => _configuration.GetValue<int>(nameof(ThumbnailHeight));
         public string UploadImageRootPath => _configuration.GetValue<string>(nameof(UploadImageRootPath));
+        public string ConnectionString => _configuration.GetValue<string>(nameof(ConnectionString));
     }
 }

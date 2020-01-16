@@ -1,5 +1,7 @@
+using Gallery.Web.Abstractions;
 using Gallery.Web.Config;
 using Gallery.Web.Models;
+using Gallery.Web.Repositories;
 using Gallery.Web.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -10,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Gallery.Web
 {
@@ -25,15 +28,16 @@ namespace Gallery.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<ISettings, Settings>();
-            services.AddSingleton<IPasswordHasher<UserModel>, PasswordHasher<UserModel>>();
             services.AddHttpContextAccessor();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            services.AddSingleton<ISettings, Settings>();
+            services.AddSingleton<IPasswordHasher<UserModel>, PasswordHasher<UserModel>>();
+            services.AddSingleton<IAlbumRepository, AlbumRepository>();
             services.AddSingleton<IAuthService, AuthService>();
             services.AddSingleton<ITextMapService, TextMapService>();
             services.AddSingleton<IImageProcessService, ImageProcessService>();
-            services.AddSingleton<IUploadImageService, UploadImageService>();
+            services.AddSingleton<IAlbumService, AlbumService>();
 
             services.AddAuthentication(options =>
             {
@@ -45,7 +49,7 @@ namespace Gallery.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
