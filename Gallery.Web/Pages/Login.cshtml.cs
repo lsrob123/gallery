@@ -1,5 +1,4 @@
 ﻿using Gallery.Web.Abstractions;
-using Gallery.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;

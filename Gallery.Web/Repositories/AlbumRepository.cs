@@ -1,21 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Gallery.Web.Abstractions;
+﻿using Gallery.Web.Abstractions;
 using Gallery.Web.Models;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Gallery.Web.Repositories
 {
     public class AlbumRepository : IAlbumRepository
     {
-        private readonly ISettings _settings;
         private readonly ILogger<AlbumRepository> _logger;
+        private readonly ISettings _settings;
 
         public AlbumRepository(ISettings settings, ILogger<AlbumRepository> logger)
         {
             _settings = settings;
             _logger = logger;
+        }
+
+        public void DeleteAlbum(string albumName)
+        {
+            try
+            {
+                using var store = new AlbumDataStore(_settings);
+                store.Albums.Delete(x => x.Name.ToLower() == albumName.ToLower());
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+            }
+        }
+
+        public Album GetAlbumByName(string name)
+        {
+            try
+            {
+                name = name.ToLower();
+                using var store = new AlbumDataStore(_settings);
+                var album = store.Albums
+                    .FindOne(x => x.Name.ToLower() == name.ToLower());
+                return album;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                return null;
+            }
         }
 
         public IEnumerable<Album> ListAlbums()
@@ -62,36 +92,6 @@ namespace Gallery.Web.Repositories
             catch (Exception e)
             {
                 _logger.LogError(e, e.Message);
-            }
-        }
-
-        public void DeleteAlbum(string albumName)
-        {
-            try
-            {
-                using var store = new AlbumDataStore(_settings);
-                store.Albums.Delete(x => x.Name.ToLower() == albumName.ToLower());
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, e.Message);
-            }
-        }
-
-        public Album GetAlbumByName(string name)
-        {
-            try
-            {
-                name = name.ToLower();
-                using var store = new AlbumDataStore(_settings);
-                var album = store.Albums
-                    .FindOne(x => x.Name.ToLower() == name.ToLower());
-                return album;
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, e.Message);
-                return null;
             }
         }
     }

@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Gallery.Web.Abstractions;
+﻿using Gallery.Web.Abstractions;
 using Gallery.Web.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Gallery.Web.Pages
 {
@@ -22,7 +22,10 @@ namespace Gallery.Web.Pages
         [BindProperty]
         public string AlbumName { get; set; }
 
-        public IEnumerable<UploadImage> UploadResults { get; set; }
+        [BindProperty]
+        public IEnumerable<UploadImage> FailedFiles { get; set; }
+
+        public IEnumerable<UploadImage> SucceededFiles { get; set; }
 
         public void OnGet(string albumName)
         {
@@ -31,9 +34,9 @@ namespace Gallery.Web.Pages
 
         public async Task OnPostUploadAsync(ICollection<IFormFile> files)
         {
-            var album = await _uploadImageService.ProcessUploadFiles(files, AlbumName);
-            UploadResults = album.UploadImages.Values;
-            //TODO Display succeded or failed uploads
+            var result = await _uploadImageService.ProcessUploadFiles(files, AlbumName);
+            SucceededFiles = result.Album.UploadImages.Values;
+            FailedFiles = result.FailedFiles;
         }
     }
 }
