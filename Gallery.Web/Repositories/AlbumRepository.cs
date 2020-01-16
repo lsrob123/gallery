@@ -1,5 +1,6 @@
 ﻿using Gallery.Web.Abstractions;
 using Gallery.Web.Models;
+using LiteDB;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,13 @@ namespace Gallery.Web.Repositories
     {
         private readonly ILogger<AlbumRepository> _logger;
         private readonly ISettings _settings;
+
+        static AlbumRepository()
+        {
+            var mapper = BsonMapper.Global;
+
+            mapper.Entity<Album>().Id(x => x.Key);
+        }
 
         public AlbumRepository(ISettings settings, ILogger<AlbumRepository> logger)
         {
