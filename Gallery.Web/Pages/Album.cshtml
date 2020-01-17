@@ -12,3 +12,8 @@
         <button asp-page-handler="Upload">Upload Files</button>
     </form>
 }
+
+@section PageHeader
+{
+    <a class="header-link" href="/">Home</a> <span class="arrow">&#9654;</span> @Model.AlbumName
+}

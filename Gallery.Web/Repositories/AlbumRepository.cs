@@ -56,12 +56,12 @@ namespace Gallery.Web.Repositories
             }
         }
 
-        public IEnumerable<Album> ListAlbums()
+        public ICollection<Album> ListAlbums()
         {
             try
             {
                 using var store = new AlbumDataStore(_settings);
-                var albums = store.Albums.FindAll().OrderBy(x => x.Name);
+                var albums = store.Albums.FindAll().OrderByDescending(x=>x.TimeUpdated).ToList();
                 return albums;
             }
             catch (Exception e)
@@ -71,7 +71,7 @@ namespace Gallery.Web.Repositories
             }
         }
 
-        public IEnumerable<Album> ListAlbumsByKeyword(string keyword)
+        public ICollection<Album> ListAlbumsByKeyword(string keyword)
         {
             try
             {
@@ -79,7 +79,8 @@ namespace Gallery.Web.Repositories
                 using var store = new AlbumDataStore(_settings);
                 var albums = store.Albums
                     .Find(x => x.Name.ToLower().Contains(keyword) || x.Description.ToLower().Contains(keyword))
-                    .OrderBy(x => x.Name);
+                    .OrderBy(x => x.Name)
+                    .ToList();
                 return albums;
             }
             catch (Exception e)

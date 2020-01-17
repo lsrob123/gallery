@@ -6,7 +6,7 @@
         string TextMapFilePath { get; }
         int ThumbnailHeight { get; }
         string UploadImageRootPath { get; }
-        string ConnectionString { get; }
+        string Database { get; }
         string DefaultThumbnailUriPathForAlbum { get; }
     }
 }

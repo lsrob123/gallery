@@ -6,9 +6,9 @@ namespace Gallery.Web.Abstractions
     public interface IAlbumRepository
     {
         void DeleteAlbum(string albumName);
-        IEnumerable<Album> ListAlbums();
+        ICollection<Album> ListAlbums();
         Album GetAlbumByName(string name);
-        IEnumerable<Album> ListAlbumsByKeyword(string keyword);
+        ICollection<Album> ListAlbumsByKeyword(string keyword);
         void UpdateAlbum(Album album);
     }
 }

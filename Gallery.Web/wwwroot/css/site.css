@@ -1,7 +1,7 @@
 ﻿body {
     margin: 0;
     padding: 0;
-    background-color: #666666;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .header {
@@ -10,23 +10,42 @@
     right: 0;
     top: 0;
     height: 40px;
-    background-color: #dddddd;
+    background-color: #22324a;
 }
 
     .header .page-title {
-        margin: 10px;
-        font-size: 16px;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 8px;
+        font-size: 18px;
+        text-align: center;
+        color: white;
     }
+
+    .header .arrow {
+        color: white;
+        margin: 0 15px;
+        font-size: 12px;
+    }
+
+    .header .header-link {
+        color: white;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+        .header .header-link:hover {
+            font-weight: bold;
+        }
 
 .content {
     position: absolute;
     left: 0;
     right: 0;
-    top: 60px;
-    bottom: 0;
+    top: 40px;
+    bottom: 40px;
     overflow: auto;
     padding: 20px;
+    background-color: #0d182a;
+    color: white;
 }
 
 .footer {
@@ -34,12 +53,17 @@
     left: 0;
     right: 0;
     bottom: 0;
-    height: 60px;
-    background-color: #dddddd;
+    height: 40px;
+    background-color: #22324a;
 }
 
 .top-gap {
     margin-top: 20px;
+}
+
+.panel-centered {
+    text-align: center;
+    margin-bottom: 10px;
 }
 
 .error-message {
@@ -62,4 +86,22 @@
         background-color: white;
         text-decoration: none;
         cursor: pointer;
+        width: 400px;
+        box-shadow: 0px 3px 20px 5px rgba(0,0,0,0.8);
     }
+
+        .albums .album-block .album-thumb {
+            width: 400px;
+            height: 300px;
+            display: block;
+        }
+
+        .albums .album-block .album-title {
+            display: block;
+            margin-top: 3px;
+            width: 400px;
+            word-wrap: normal;
+            text-align: center;
+            color: black;
+            font-size: 16px;
+        }

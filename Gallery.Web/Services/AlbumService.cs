@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-using Gallery.Web.Abstractions;
+﻿using Gallery.Web.Abstractions;
 using Gallery.Web.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Gallery.Web.Services
 {
@@ -44,17 +44,21 @@ namespace Gallery.Web.Services
             return _albumRepository.GetAlbumByName(name);
         }
 
-        public IEnumerable<Album> ListAlbums()
+        public ICollection<Album> ListAlbums()
         {
-            return _albumRepository.ListAlbums();
+            var albums = _albumRepository.ListAlbums()
+                .RefreshThumbnailUris(_settings.DefaultThumbnailUriPathForAlbum);
+            return albums;
         }
 
-        public IEnumerable<Album> ListAlbumsByKeyword(string keyword)
+        public ICollection<Album> ListAlbumsByKeyword(string keyword)
         {
-            return _albumRepository.ListAlbumsByKeyword(keyword);
+            var albums = _albumRepository.ListAlbumsByKeyword(keyword)
+                .RefreshThumbnailUris(_settings.DefaultThumbnailUriPathForAlbum);
+            return albums;
         }
 
-        public async Task<(Album Album, ICollection<UploadImage> FailedFiles)> 
+        public async Task<(Album Album, ICollection<UploadImage> FailedFiles)>
             ProcessUploadFiles(ICollection<IFormFile> files, string albumName)
         {
             (Album Album, ICollection<UploadImage> FailedFiles) result =

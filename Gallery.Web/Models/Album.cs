@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Gallery.Web.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Gallery.Web.Abstractions;
 
 namespace Gallery.Web.Models
 {
@@ -17,17 +17,46 @@ namespace Gallery.Web.Models
             Description = description;
             DefaultThumbnailUriPath = ThumbnailUriPath = defaultThumbnailUriPath;
             SetKey(Guid.NewGuid());
-
+            WithVisibility(true);
+            
             TimeUpdated = DateTimeOffset.UtcNow;
         }
 
-        public string Name { get; set; }
+        public string DefaultThumbnailUriPath { get; protected set; }
         public string Description { get; set; }
+        public string Name { get; set; }
+        public string ThumbnailUriPath { get; protected set; }
         public DateTimeOffset TimeUpdated { get; protected set; }
         public Dictionary<string, UploadImage> UploadImages { get; protected set; }
         public bool Visible { get; protected set; }
-        public string ThumbnailUriPath { get; protected set; }
-        public string DefaultThumbnailUriPath { get; protected set; }
+
+        public void RefreshThumbnailUri(string defaultThumbnailUriPath = null)
+        {
+            if (!string.IsNullOrWhiteSpace(defaultThumbnailUriPath))
+                DefaultThumbnailUriPath = defaultThumbnailUriPath;
+
+            if ((UploadImages is null) || !UploadImages.Any())
+            {
+                ThumbnailUriPath = DefaultThumbnailUriPath;
+            }
+            else
+            {
+                ThumbnailUriPath = UploadImages.Values.OrderByDescending(x => x.TimeUpdated).First().UriPath;
+            }
+        }
+
+        public Album RemoveUploadImage(string processedFileName, out string key)
+        {
+            key = processedFileName?.ToLower();
+            if (key is null)
+                return this;
+
+            if (UploadImages.ContainsKey(key))
+                UploadImages.Remove(key);
+
+            RefreshThumbnailUri();
+            return this;
+        }
 
         public Album WithUploadImage(UploadImage uploadImage)
         {
@@ -50,35 +79,10 @@ namespace Gallery.Web.Models
             return this;
         }
 
-        public Album RemoveUploadImage(string processedFileName, out string key)
-        {
-            key = processedFileName?.ToLower();
-            if (key is null)
-                return this;
-
-            if (UploadImages.ContainsKey(key))
-                UploadImages.Remove(key);
-
-            RefreshThumbnailUri();
-            return this;
-        }
-
         public Album WithVisibility(bool visible)
         {
             Visible = visible;
             return this;
-        }
-
-        public void RefreshThumbnailUri()
-        {
-            if ((UploadImages is null) || !UploadImages.Any())
-            {
-                ThumbnailUriPath = DefaultThumbnailUriPath;
-            }
-            else
-            {
-                ThumbnailUriPath = UploadImages.Values.OrderByDescending(x => x.TimeUpdated).First().UriPath;
-            }
         }
     }
 }

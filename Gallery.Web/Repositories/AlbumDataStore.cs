@@ -13,8 +13,11 @@ namespace Gallery.Web.Repositories
 
         public AlbumDataStore(ISettings settings)
         {
-            var connectionString = Path.Combine(Directory.GetCurrentDirectory(), settings.ConnectionString);
-            _db = new LiteDatabase(connectionString);
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "data", settings.Database);
+            var folderPath = Path.GetDirectoryName(filePath);
+            if (!Directory.Exists(folderPath))
+                Directory.CreateDirectory(folderPath);
+            _db = new LiteDatabase($"Filename={filePath}");
 
             Albums = _db.GetCollection<Album>(nameof(Album));
             Albums.EnsureIndex(x => x.Name, true);

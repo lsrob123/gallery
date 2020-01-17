@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.IO;
 using System.Text.Json.Serialization;
-using Gallery.Web.Abstractions;
-using Microsoft.AspNetCore.Http;
 
 namespace Gallery.Web.Models
 {
@@ -25,29 +24,20 @@ namespace Gallery.Web.Models
             TimeUpdated = DateTimeOffset.UtcNow;
         }
 
+        public bool AsAlbumThumbnail { get; protected set; }
+
+        public string Description { get; protected set; }
+
         [JsonIgnore]
         public IFormFile FormFile { get; }
 
         public bool IsSuccess { get; protected set; }
         public string OriginalFileName => FormFile?.Name;
         public string ProcessedFileName { get; protected set; }
-        public string ThumbnailFileName { get; protected set; }
-        public string UriPath { get; protected set; }
-        public string Description { get; protected set; }
-        public DateTimeOffset TimeUpdated { get; protected set; }
         public int SequenceNumber { get; protected set; }
-
-        public UploadImage WithDescription(string description)
-        {
-            Description = description;
-            return this;
-        }
-
-        public UploadImage WithSequenceNumber(int sequenceNumber)
-        {
-            SequenceNumber = sequenceNumber;
-            return this;
-        }
+        public string ThumbnailFileName { get; protected set; }
+        public DateTimeOffset TimeUpdated { get; protected set; }
+        public string UriPath { get; protected set; }
 
         public string GetProcessedFilePath(string rootPath)
         {
@@ -74,9 +64,26 @@ namespace Gallery.Web.Models
             return this;
         }
 
+        public void SetAsAlbumThumbnail(bool asAlbumThumbnail = true)
+        {
+            AsAlbumThumbnail = asAlbumThumbnail;
+        }
+
+        public UploadImage WithDescription(string description)
+        {
+            Description = description;
+            return this;
+        }
+
         public UploadImage WithinAlbum(string albumName)
         {
             UriPath = $"{albumName.Trim().TrimStart('/').TrimEnd('/')}/{ProcessedFileName}";
+            return this;
+        }
+
+        public UploadImage WithSequenceNumber(int sequenceNumber)
+        {
+            SequenceNumber = sequenceNumber;
             return this;
         }
     }

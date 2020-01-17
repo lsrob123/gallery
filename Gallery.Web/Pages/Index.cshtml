@@ -4,20 +4,28 @@
     ViewData[Constants.PageTitle] = "Home";
 }
 
-    <div class="albums">
-        @if (!Model.IsLoggedIn)
-        {
+@if (Model.IsLoggedIn)
+{
+    <div class="panel-centered">
         <form method="post">
             <input type="text" required="required" name="albumName" />
             <input type="text" required="required" name="albumDescription" />
             <button asp-page-handler="CreateAlbum">@Model.CreateAlbumButtonText</button>
         </form>
-        }
-
-        @foreach (var album in Model.Albums)
-        {
-            <a class="album-block" href="album/@album.Name" title="@album.Description">
-                <img src="@album.ThumbnailUriPath" alt="@album.Name" />
-            </a>
-        }
     </div>
+}
+
+<div class="albums">
+    @foreach (var album in Model.Albums)
+    {
+        <a class="album-block" href="album/@album.Name" title="@album.Description">
+            <img class="album-thumb" src="@album.ThumbnailUriPath" alt="@album.Name" />
+            <div class="album-title">@album.Name</div>
+        </a>
+    }
+</div>
+
+@section PageHeader
+{
+    <a class="header-link" href="/">Home</a>
+}

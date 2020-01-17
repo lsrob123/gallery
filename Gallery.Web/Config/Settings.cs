@@ -16,7 +16,7 @@ namespace Gallery.Web.Config
         public string TextMapFilePath => _configuration.GetValue<string>(nameof(TextMapFilePath));
         public int ThumbnailHeight => _configuration.GetValue<int>(nameof(ThumbnailHeight));
         public string UploadImageRootPath => _configuration.GetValue<string>(nameof(UploadImageRootPath));
-        public string ConnectionString => _configuration.GetValue<string>(nameof(ConnectionString));
+        public string Database => _configuration.GetValue<string>(nameof(Database));
         public string DefaultThumbnailUriPathForAlbum => _configuration.GetValue<string>(nameof(DefaultThumbnailUriPathForAlbum));
     }
 }

@@ -19,7 +19,7 @@ namespace Gallery.Web.Pages
         }
 
         [BindProperty]
-        public IEnumerable<Album> Albums { get; private set; }
+        public IEnumerable<Album> Albums { get; private set; } = new List<Album>();
 
         public string CreateAlbumButtonText => T.GetMap("Create Album");
 
@@ -30,21 +30,24 @@ namespace Gallery.Web.Pages
 
         private void LoadAlbums()
         {
-            Albums = _albumService.ListAlbums().OrderByDescending(x => x.TimeUpdated);
+            Albums = _albumService.ListAlbums();
 
             if (!IsLoggedIn)
             {
                 Albums = Albums.Where(x => x.Visible);
             }
+
+            Albums = Albums;
         }
 
-        public void OnPostCreateAlbum(string albumName, string albumDescription)
+        public IActionResult OnPostCreateAlbum(string albumName, string albumDescription)
         {
             if (!IsLoggedIn)
-                return;
+                return Page();
 
             _albumService.CreateAlbum(albumName, albumDescription);
             LoadAlbums();
+            return RedirectToPage("Index");
         }
     }
 }

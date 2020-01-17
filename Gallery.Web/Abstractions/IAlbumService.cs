@@ -13,9 +13,9 @@ namespace Gallery.Web.Abstractions
 
         Album GetAlbumByName(string name);
 
-        IEnumerable<Album> ListAlbums();
+        ICollection<Album> ListAlbums();
 
-        IEnumerable<Album> ListAlbumsByKeyword(string keyword);
+        ICollection<Album> ListAlbumsByKeyword(string keyword);
 
         Task<(Album Album, ICollection<UploadImage> FailedFiles)>
             ProcessUploadFiles(ICollection<IFormFile> files, string albumName);
