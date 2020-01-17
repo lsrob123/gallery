@@ -1,13 +1,12 @@
-﻿using Gallery.Web.Abstractions;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+using Gallery.Web.Abstractions;
 using Gallery.Web.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Gallery.Web.Services
 {
@@ -29,14 +28,10 @@ namespace Gallery.Web.Services
             _albumRepository = albumRepository;
         }
 
-        public Album CreateAlbum(string name, string description)
+        public void CreateAlbum(string name, string description)
         {
-            var album = new Album
-            {
-                Name = name,
-                Description = description
-            }.WithKey();
-            return album;
+            var album = new Album(name, description, _settings.DefaultThumbnailUriPathForAlbum);
+            _albumRepository.UpdateAlbum(album);
         }
 
         public void DeleteAlbum(string albumName)
@@ -102,11 +97,9 @@ namespace Gallery.Web.Services
                     processedFile.MarkAsFailed();
                     result.FailedFiles.Add(processedFile);
                 }
-
-                
             }
 
-            result.Album.WithUploadImages(processedFiles.Where(x => x.IsSuccess));
+            result.Album.WithUploadImages(processedFiles);
             _albumRepository.UpdateAlbum(result.Album);
 
             return result;

@@ -32,7 +32,7 @@ namespace Gallery.Web.Models
         public string OriginalFileName => FormFile?.Name;
         public string ProcessedFileName { get; protected set; }
         public string ThumbnailFileName { get; protected set; }
-        public string Uri { get; protected set; }
+        public string UriPath { get; protected set; }
         public string Description { get; protected set; }
         public DateTimeOffset TimeUpdated { get; protected set; }
         public int SequenceNumber { get; protected set; }
@@ -64,7 +64,7 @@ namespace Gallery.Web.Models
             IsSuccess = false;
             ProcessedFileName = null;
             ThumbnailFileName = null;
-            Uri = null;
+            UriPath = null;
             return this;
         }
 
@@ -76,7 +76,7 @@ namespace Gallery.Web.Models
 
         public UploadImage WithinAlbum(string albumName)
         {
-            Uri = $"{albumName.Trim().TrimStart('/').TrimEnd('/')}/{ProcessedFileName}";
+            UriPath = $"{albumName.Trim().TrimStart('/').TrimEnd('/')}/{ProcessedFileName}";
             return this;
         }
     }

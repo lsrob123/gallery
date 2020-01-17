@@ -7,5 +7,6 @@
         int ThumbnailHeight { get; }
         string UploadImageRootPath { get; }
         string ConnectionString { get; }
+        string DefaultThumbnailUriPathForAlbum { get; }
     }
 }

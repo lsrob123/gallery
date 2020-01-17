@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Gallery.Web.Abstractions;
 
 namespace Gallery.Web.Models
@@ -8,13 +9,25 @@ namespace Gallery.Web.Models
     {
         public Album()
         {
+        }
+
+        public Album(string name, string description, string defaultThumbnailUriPath)
+        {
+            Name = name;
+            Description = description;
+            DefaultThumbnailUriPath = ThumbnailUriPath = defaultThumbnailUriPath;
+            SetKey(Guid.NewGuid());
+
             TimeUpdated = DateTimeOffset.UtcNow;
         }
 
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTimeOffset TimeUpdated { get; protected set; }
-        public Dictionary<string, UploadImage> UploadImages { get; set; }
+        public Dictionary<string, UploadImage> UploadImages { get; protected set; }
+        public bool Visible { get; protected set; }
+        public string ThumbnailUriPath { get; protected set; }
+        public string DefaultThumbnailUriPath { get; protected set; }
 
         public Album WithUploadImage(UploadImage uploadImage)
         {
@@ -32,6 +45,8 @@ namespace Gallery.Web.Models
                 UploadImages.Add(key, uploadImage);
             }
 
+            RefreshThumbnailUri();
+
             return this;
         }
 
@@ -43,7 +58,27 @@ namespace Gallery.Web.Models
 
             if (UploadImages.ContainsKey(key))
                 UploadImages.Remove(key);
+
+            RefreshThumbnailUri();
             return this;
+        }
+
+        public Album WithVisibility(bool visible)
+        {
+            Visible = visible;
+            return this;
+        }
+
+        public void RefreshThumbnailUri()
+        {
+            if ((UploadImages is null) || !UploadImages.Any())
+            {
+                ThumbnailUriPath = DefaultThumbnailUriPath;
+            }
+            else
+            {
+                ThumbnailUriPath = UploadImages.Values.OrderByDescending(x => x.TimeUpdated).First().UriPath;
+            }
         }
     }
 }
