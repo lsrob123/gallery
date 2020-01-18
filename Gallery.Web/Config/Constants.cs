@@ -2,6 +2,7 @@
 {
     public static class Constants
     {
-        public const string PageHeader = nameof(PageHeader), PageTitle = nameof(PageTitle);
+        public const string PageHeader = nameof(PageHeader), PageTitle = nameof(PageTitle),
+            HomePageName = "Index", HomePageTitle = "Home";
     }
 }

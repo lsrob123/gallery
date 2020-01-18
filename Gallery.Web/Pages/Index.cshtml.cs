@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Gallery.Web.Abstractions;
+﻿using Gallery.Web.Abstractions;
+using Gallery.Web.Config;
 using Gallery.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Gallery.Web.Pages
 {
@@ -23,9 +24,23 @@ namespace Gallery.Web.Pages
 
         public string CreateAlbumButtonText => T.GetMap("Create Album");
 
+        public override string PageName => Constants.HomePageName;
+
+        public override string PageTitle => Constants.HomePageTitle;
+
         public void OnGet()
         {
             LoadAlbums();
+        }
+
+        public IActionResult OnPostCreateAlbum(string albumName)
+        {
+            if (!IsLoggedIn)
+                return Page();
+
+            _albumService.CreateAlbum(albumName, null);
+            LoadAlbums();
+            return RedirectToPage(PageName);
         }
 
         private void LoadAlbums()
@@ -34,20 +49,10 @@ namespace Gallery.Web.Pages
 
             if (!IsLoggedIn)
             {
-                Albums = Albums.Where(x => x.Visible);
+                Albums = Albums.Where(x => x.Visibility == Visibility.Visible);
             }
 
             Albums = Albums;
-        }
-
-        public IActionResult OnPostCreateAlbum(string albumName, string albumDescription)
-        {
-            if (!IsLoggedIn)
-                return Page();
-
-            _albumService.CreateAlbum(albumName, albumDescription);
-            LoadAlbums();
-            return RedirectToPage("Index");
         }
     }
 }

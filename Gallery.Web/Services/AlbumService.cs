@@ -1,4 +1,5 @@
 ﻿using Gallery.Web.Abstractions;
+using Gallery.Web.Config;
 using Gallery.Web.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -22,7 +23,7 @@ namespace Gallery.Web.Services
             IImageProcessService imageProcessService, IAlbumRepository albumRepository)
         {
             _settings = settings;
-            _uploadImageRootPath = Path.Combine(env.WebRootPath, _settings.UploadImageRootPath);
+            _uploadImageRootPath = Path.Combine(env.WebRootPath, _settings.UploadImageRootPath, _settings.AlbumRootPath);
             _logger = logger;
             _imageProcessService = imageProcessService;
             _albumRepository = albumRepository;
@@ -76,7 +77,7 @@ namespace Gallery.Web.Services
             var processedFiles = new List<UploadImage>();
             foreach (var file in files)
             {
-                var processedFile = new UploadImage(file, file.FileName, result.Album.Name);
+                var processedFile = new UploadImage(file, file.FileName, _settings.AlbumRootPath, result.Album.Name);
 
                 var processedFilePath = processedFile.GetProcessedFilePath(albumPath);
                 CheckFileExistence(albumPath, processedFilePath, processedFile);
@@ -112,6 +113,14 @@ namespace Gallery.Web.Services
         public void UpdateAlbum(Album album)
         {
             _albumRepository.UpdateAlbum(album);
+        }
+
+        public Album UpdateAlbumInfo(string name, string description, Visibility visibility)
+        {
+            var album = _albumRepository.GetAlbumByName(name);
+            album.WithAlbumInfo(description, visibility);
+            _albumRepository.UpdateAlbum(album);
+            return album;
         }
 
         private static void CheckFileExistence(string albumPath, string processedFilePath,

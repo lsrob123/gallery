@@ -4,7 +4,7 @@
     ViewData[Constants.PageTitle] = "Login";
 }
 
-<div class="panel-centered">
+<div class="panel-tools">
     @if (!Model.IsLoggedIn)
     {
         <form method="post">
@@ -27,5 +27,6 @@
 
 @section PageHeader
 {
-    <a class="header-link" href="/">Home</a> <span class="arrow">&#9654;</span> Login
+    <a class="header-link" href="/">@Constants.HomePageTitle</a>
+    <span class="arrow">&#9654;</span> @Model.PageTitle
 }

@@ -1,4 +1,5 @@
-﻿using Gallery.Web.Models;
+﻿using Gallery.Web.Config;
+using Gallery.Web.Models;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -21,5 +22,7 @@ namespace Gallery.Web.Abstractions
             ProcessUploadFiles(ICollection<IFormFile> files, string albumName);
 
         void UpdateAlbum(Album album);
+
+        Album UpdateAlbumInfo(string name, string description, Visibility visibility);
     }
 }

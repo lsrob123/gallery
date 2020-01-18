@@ -7,13 +7,15 @@ namespace Gallery.Web.Pages
 {
     public class LoginModel : GalleryPageModelBase<LoginModel>
     {
-        public string LogIn => T.GetMap("Log In");
-        public string LogOut => T.GetMap("Log Out");
-
         public LoginModel(ILogger<LoginModel> logger, IAuthService authService, ITextMapService textMapService)
             : base(logger, authService, textMapService)
         {
         }
+
+        public string LogIn => "Log In";
+        public string LogOut => "Log Out";
+        public override string PageName => "Login";
+        public override string PageTitle => "Login";
 
         public void OnGet()
         {

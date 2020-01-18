@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Gallery.Web.Config;
 
 namespace Gallery.Web.Models
 {
@@ -14,11 +15,10 @@ namespace Gallery.Web.Models
         public Album(string name, string description, string defaultThumbnailUriPath)
         {
             Name = name;
-            Description = description;
+            WithAlbumInfo(description, Visibility.Visible);
             DefaultThumbnailUriPath = ThumbnailUriPath = defaultThumbnailUriPath;
             SetKey(Guid.NewGuid());
-            WithVisibility(true);
-            
+
             TimeUpdated = DateTimeOffset.UtcNow;
         }
 
@@ -28,7 +28,7 @@ namespace Gallery.Web.Models
         public string ThumbnailUriPath { get; protected set; }
         public DateTimeOffset TimeUpdated { get; protected set; }
         public Dictionary<string, UploadImage> UploadImages { get; protected set; }
-        public bool Visible { get; protected set; }
+        public Visibility Visibility { get; protected set; }
 
         public void RefreshThumbnailUri(string defaultThumbnailUriPath = null)
         {
@@ -79,9 +79,10 @@ namespace Gallery.Web.Models
             return this;
         }
 
-        public Album WithVisibility(bool visible)
+        public Album WithAlbumInfo(string description, Visibility visibility)
         {
-            Visible = visible;
+            Description = description;
+            Visibility = visibility;
             return this;
         }
     }

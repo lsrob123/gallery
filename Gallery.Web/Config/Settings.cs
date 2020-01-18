@@ -12,11 +12,12 @@ namespace Gallery.Web.Config
             _configuration = configuration;
         }
 
+        public string AlbumRootPath => _configuration.GetValue<string>(nameof(AlbumRootPath));
+        public string Database => _configuration.GetValue<string>(nameof(Database));
+        public string DefaultThumbnailUriPathForAlbum => _configuration.GetValue<string>(nameof(DefaultThumbnailUriPathForAlbum));
         public string HashedPassword => _configuration.GetValue<string>(nameof(HashedPassword));
         public string TextMapFilePath => _configuration.GetValue<string>(nameof(TextMapFilePath));
         public int ThumbnailHeight => _configuration.GetValue<int>(nameof(ThumbnailHeight));
         public string UploadImageRootPath => _configuration.GetValue<string>(nameof(UploadImageRootPath));
-        public string Database => _configuration.GetValue<string>(nameof(Database));
-        public string DefaultThumbnailUriPathForAlbum => _configuration.GetValue<string>(nameof(DefaultThumbnailUriPathForAlbum));
     }
 }

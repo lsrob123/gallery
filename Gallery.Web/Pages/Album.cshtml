@@ -1,19 +1,66 @@
 ﻿@page "{albumName?}"
 @model AlbumModel
 @{
-    ViewData[Constants.PageTitle] = Model.AlbumName;
+    ViewData[Constants.PageTitle] = T.GetMap(Model.AlbumName ?? "_test");
 }
 
-@if (Model.IsLoggedIn)
+@if (Model.IsNotFound)
 {
-    <form method="post" enctype="multipart/form-data">
-        <input type="file" required="required" name="files" multiple="multiple" />
-        <!--<input type="file" required="required" multiple="multiple" accept="image/*" />-->
-        <button asp-page-handler="Upload">Upload Files</button>
+    <span>Album not found</span>
+}
+else if (Model.IsLoggedIn)
+{
+    <form method="post">
+        <div class="album-info-editor">
+            <div class="album-info-field">
+                Description
+            </div>
+            <div class="album-info-field">
+                <textarea asp-for="UpdatedDescription"></textarea>
+            </div>
+            <div class="album-info-field">
+                <label><input type="checkbox" asp-for="IsVisible" /> Visible in Home Page</label>
+            </div>
+            <div class="album-info-field">
+                <button asp-page-handler="AlbumInfo">Submit</button>
+            </div>
+        </div>
     </form>
+
+    <div class="top-gap">
+        <form method="post" enctype="multipart/form-data">
+            <!--<input type="file" required="required" name="files" multiple="multiple" />-->
+            <input type="file" required="required" name="files" multiple="multiple" accept="image/*" />
+            <button asp-page-handler="Upload">Upload Files</button>
+        </form>
+    </div>
+}
+
+@if (!Model.IsNotFound && Model.Album.Visibility == Visibility.Visible)
+{
+    @if (!Model.IsLoggedIn)
+    {
+        <div class="album-info">@Model.Album.Description</div>
+    }
+    <div class="photos">
+        @if (!(Model.Album.UploadImages is null))
+        {
+            foreach (var uploadImage in Model.Album.UploadImages)
+            {
+                <a class="photo-block" href="/images/@uploadImage.Value.UriPath" target="@uploadImage.Value.ProcessedFileName">
+                    <img class="thumb" src="/images/@uploadImage.Value.ThumbnailUriPath" />
+                </a>
+            }
+        }
+        else
+        {
+            <span>(Empty)</span>
+        }
+    </div>
 }
 
 @section PageHeader
 {
-    <a class="header-link" href="/">Home</a> <span class="arrow">&#9654;</span> @Model.AlbumName
+    <a class="header-link" href="/">@T.GetMap(Constants.HomePageTitle)</a>
+    <span class="arrow">&#9654;</span> @T.GetMap(Model.AlbumName)
 }

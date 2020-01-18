@@ -7,12 +7,15 @@ namespace Gallery.Web.Models
 {
     public class UploadImage
     {
-        public UploadImage(IFormFile formFile, string processedFileName, string albumName,
+        public UploadImage()
+        {
+        }
+
+        public UploadImage(IFormFile formFile, string processedFileName, string albumRootPath, string albumName,
             string thumbnailFileName = null)
         {
             FormFile = formFile;
             ProcessedFileName = processedFileName.Replace('_', '-').Replace(' ', '-');
-            WithinAlbum(albumName);
             if (string.IsNullOrWhiteSpace(ProcessedFileName))
                 return;
 
@@ -22,6 +25,8 @@ namespace Gallery.Web.Models
 
             ThumbnailFileName = $"{Path.GetFileNameWithoutExtension(ProcessedFileName)}-small.jpg";
             TimeUpdated = DateTimeOffset.UtcNow;
+
+            WithinAlbum(albumRootPath, albumName);
         }
 
         public bool AsAlbumThumbnail { get; protected set; }
@@ -36,6 +41,7 @@ namespace Gallery.Web.Models
         public string ProcessedFileName { get; protected set; }
         public int SequenceNumber { get; protected set; }
         public string ThumbnailFileName { get; protected set; }
+        public string ThumbnailUriPath { get; protected set; }
         public DateTimeOffset TimeUpdated { get; protected set; }
         public string UriPath { get; protected set; }
 
@@ -55,6 +61,7 @@ namespace Gallery.Web.Models
             ProcessedFileName = null;
             ThumbnailFileName = null;
             UriPath = null;
+            ThumbnailUriPath = null;
             return this;
         }
 
@@ -75,9 +82,11 @@ namespace Gallery.Web.Models
             return this;
         }
 
-        public UploadImage WithinAlbum(string albumName)
+        public UploadImage WithinAlbum(string albumRootPath, string albumName)
         {
-            UriPath = $"{albumName.Trim().TrimStart('/').TrimEnd('/')}/{ProcessedFileName}";
+            var rootPath = $"{albumRootPath.Trim().TrimStart('/').TrimEnd('/')}/{albumName.Trim().TrimStart('/').TrimEnd('/')}";
+            UriPath = $"{rootPath}/{ProcessedFileName}";
+            ThumbnailUriPath = $"{rootPath}/{ThumbnailFileName}";
             return this;
         }
 

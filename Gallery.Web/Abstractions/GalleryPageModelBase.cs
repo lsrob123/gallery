@@ -29,5 +29,7 @@ namespace Gallery.Web.Abstractions
 
         public bool IsLoggedIn => AuthService.IsLoggedIn();
         public string UserName => AuthService.GetUser();
+        public abstract string PageName { get; }
+        public abstract string PageTitle { get; }
     }
 }
