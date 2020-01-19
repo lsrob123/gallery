@@ -52,6 +52,45 @@ namespace Gallery.Web.Services
             return albums;
         }
 
+        public Dictionary<DateTimeOffset, List<Album>> ListAlbumsInDays(int? days=90)
+        {
+            var albums = _albumRepository.ListAlbums()
+                .RefreshThumbnailUris(_settings.DefaultThumbnailUriPathForAlbum);
+
+
+
+
+
+            //    var selectedImages = new Dictionary<DateTimeOffset, List<UploadImage>>();
+            //    if (!HasUploadImages)
+            //    {
+            //        return selectedImages;
+            //    }
+
+            //    foreach (var uploadImage in UploadImages.OrderByDescending(x=>x.Value.DayUpdated))
+            //    {
+            //        if (selectedImages.TryGetValue(uploadImage.Value.DayUpdated, out var imageList))
+            //        {
+            //            imageList.Add(uploadImage.Value);
+            //        }
+            //        else
+            //        {
+            //            imageList = new List<UploadImage> { uploadImage.Value };
+            //            selectedImages.Add(uploadImage.Value.DayUpdated, imageList);
+            //        }
+            //    }
+
+            //    return selectedImages;
+
+
+
+
+
+
+
+            return albums;
+        }
+
         public ICollection<Album> ListAlbumsByKeyword(string keyword)
         {
             var albums = _albumRepository.ListAlbumsByKeyword(keyword)
@@ -92,7 +131,11 @@ namespace Gallery.Web.Services
 
                     await _imageProcessService.ResizeByHeightAsync(processedFilePath,
                         processedFile.GetThumbnailFilePath(albumPath),
-                        _settings.ThumbnailHeight);
+                        _settings.UploadImageThumbnailHeight);
+
+                    await _imageProcessService.ResizeByHeightAsync(processedFilePath,
+                        processedFile.GetIconFilePath(albumPath),
+                        _settings.UploadImageIconHeight);
 
                     processedFiles.Add(processedFile);
                 }

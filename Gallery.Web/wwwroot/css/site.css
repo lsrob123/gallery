@@ -4,6 +4,10 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+button {
+    cursor: pointer;
+}
+
 .header {
     position: absolute;
     left: 0;
@@ -80,27 +84,51 @@
     .albums .album-block {
         display: block;
         margin: 10px;
-        padding: 10px;
-        background-color: white;
-        text-decoration: none;
-        cursor: pointer;
-        width: 400px;
+        background: linear-gradient(to bottom, rgba(242,246,248,1) 0%,rgba(216,225,231,1) 50%,rgba(181,198,208,1) 51%,rgba(224,239,249,1) 100%);
         box-shadow: 0px 3px 20px 5px rgba(0,0,0,0.8);
+        border-radius: 4px;
     }
 
-        .albums .album-block .album-thumb {
-            width: 400px;
-            height: 300px;
-            display: block;
+        .albums .album-block .album-icons {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: start;
+            align-items: flex-start;
+            align-content: flex-start;
+            width: 363px;
+            height: 243px;
+            overflow: hidden;
+            padding-left: 1px;
+            padding-top: 1px;
+            text-decoration: none;
+            cursor: pointer;
         }
+
+            .albums .album-block .album-icons .upload-image-icon {
+                display: block;
+                width: 120px;
+                margin-right: 1px;
+                margin-bottom: 1px;
+            }
 
         .albums .album-block .album-title {
             display: block;
-            margin-top: 3px;
-            width: 400px;
+            margin: 10px;
             word-wrap: normal;
             color: black;
             font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .albums .album-block .album-info {
+            display: block;
+            margin: 10px;
+            word-wrap: normal;
+            color: black;
+            font-size: 12px;
         }
 
 .album-info-editor {

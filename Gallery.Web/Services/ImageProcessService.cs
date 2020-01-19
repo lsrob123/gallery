@@ -16,14 +16,16 @@ namespace Gallery.Web.Services
             _logger = logger;
         }
 
+        //public async Task<string> CropForSquareAsync(string sourceFilePath, string cropedFilePath,
+        //   int height, int quality = 100)
+        //{
+
+        //}
+
         public async Task<string> ResizeByHeightAsync(string sourceFilePath, string resizedFilePath,
-            int resizedHeight, int quality = 100)
+        int resizedHeight, int quality = 100)
         {
-            var resizedFileName = $"{Path.GetFileNameWithoutExtension(resizedFilePath)}.jpg";
-            var folder = Path.GetDirectoryName(resizedFilePath);
-            resizedFilePath = Path.Combine(folder, resizedFileName);
-            if (File.Exists(resizedFilePath))
-                File.Delete(resizedFilePath);
+            resizedFilePath = EnsureTargetFilePath(resizedFilePath);
 
             using var sourceFileStream = File.OpenRead(sourceFilePath);
             using var memStream = new MemoryStream();
@@ -49,6 +51,17 @@ namespace Gallery.Web.Services
                 _logger.LogError(e, e.Message);
                 return null;
             }
+        }
+
+        private static string EnsureTargetFilePath(string targetFilePath)
+        {
+            var targetFileName = $"{Path.GetFileNameWithoutExtension(targetFilePath)}.jpg";
+            var folder = Path.GetDirectoryName(targetFilePath);
+
+            targetFilePath = Path.Combine(folder, targetFileName);
+            if (File.Exists(targetFilePath))
+                File.Delete(targetFilePath);
+            return targetFilePath;
         }
     }
 }

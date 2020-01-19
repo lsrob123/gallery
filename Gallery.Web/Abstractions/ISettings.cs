@@ -7,7 +7,8 @@
         string DefaultThumbnailUriPathForAlbum { get; }
         string HashedPassword { get; }
         string TextMapFilePath { get; }
-        int ThumbnailHeight { get; }
+        int UploadImageIconHeight { get; }
         string UploadImageRootPath { get; }
+        int UploadImageThumbnailHeight { get; }
     }
 }

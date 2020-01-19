@@ -1,8 +1,8 @@
 ﻿using Gallery.Web.Abstractions;
+using Gallery.Web.Config;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Gallery.Web.Config;
 
 namespace Gallery.Web.Models
 {
@@ -24,10 +24,19 @@ namespace Gallery.Web.Models
 
         public string DefaultThumbnailUriPath { get; protected set; }
         public string Description { get; set; }
+        public bool HasUploadImages => !(UploadImages is null) && UploadImages.Any();
+        public string InfoDisplay => HasUploadImages ? $"{UploadImages.Count} photos" : "(Empty)";
         public string Name { get; set; }
+
+        //public IDictionary<DateTimeOffset, List<UploadImage>> SelectedImagesForAlbumIcons =>
+        //    CreateSelectedImagesForAlbumIcons();
+
         public string ThumbnailUriPath { get; protected set; }
+
         public DateTimeOffset TimeUpdated { get; protected set; }
+
         public Dictionary<string, UploadImage> UploadImages { get; protected set; }
+
         public Visibility Visibility { get; protected set; }
 
         public void RefreshThumbnailUri(string defaultThumbnailUriPath = null)
@@ -58,6 +67,13 @@ namespace Gallery.Web.Models
             return this;
         }
 
+        public Album WithAlbumInfo(string description, Visibility visibility)
+        {
+            Description = description;
+            Visibility = visibility;
+            return this;
+        }
+
         public Album WithUploadImage(UploadImage uploadImage)
         {
             return WithUploadImages(new UploadImage[] { uploadImage });
@@ -79,11 +95,33 @@ namespace Gallery.Web.Models
             return this;
         }
 
-        public Album WithAlbumInfo(string description, Visibility visibility)
-        {
-            Description = description;
-            Visibility = visibility;
-            return this;
-        }
+
+        public DateTimeOffset DayUpdated => TimeUpdated.Date;
+
+
+
+        //private Dictionary<DateTimeOffset, List<UploadImage>> CreateSelectedImagesForAlbumIcons()
+        //{
+        //    var selectedImages = new Dictionary<DateTimeOffset, List<UploadImage>>();
+        //    if (!HasUploadImages)
+        //    {
+        //        return selectedImages;
+        //    }
+
+        //    foreach (var uploadImage in UploadImages.OrderByDescending(x=>x.Value.DayUpdated))
+        //    {
+        //        if (selectedImages.TryGetValue(uploadImage.Value.DayUpdated, out var imageList))
+        //        {
+        //            imageList.Add(uploadImage.Value);
+        //        }
+        //        else
+        //        {
+        //            imageList = new List<UploadImage> { uploadImage.Value };
+        //            selectedImages.Add(uploadImage.Value.DayUpdated, imageList);
+        //        }
+        //    }
+
+        //    return selectedImages;
+        //}
     }
 }

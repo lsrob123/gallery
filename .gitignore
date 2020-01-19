@@ -6,7 +6,7 @@ project.lock.json
 nupkg/
 [Dd]ata/
 [Ll]ogs/
-wwwroot/images/albums
+Gallery.Web/wwwroot/images/albums
 
 # Visual Studio Code
 .vscode

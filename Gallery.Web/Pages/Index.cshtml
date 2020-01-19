@@ -17,10 +17,26 @@
 <div class="albums">
     @foreach (var album in Model.Albums)
     {
-        <a class="album-block" href="album/@album.Name" title="@album.Description">
-            <img class="album-thumb" src="/images/@album.ThumbnailUriPath" alt="@album.Name" />
-            <div class="album-title">@album.Name</div>
-        </a>
+        <div class="album-block">
+            <a class="album-title" href="album/@album.Name" target="album.Name">@album.Name</a>
+            <a class="album-icons" href="album/@album.Name" target="album.Name">
+                @foreach (var entry in album.SelectedImagesForAlbumIcons)
+                {
+                    <div>@entry.Key</div>
+                    foreach (var uploadImage in entry.Value)
+                    {
+                        <img class="upload-image-icon" src="/images/@uploadImage.IconUriPath" alt="@uploadImage.ProcessedFileName" />
+                    }
+                }
+            </a>
+            <div class="album-info">
+                @album.InfoDisplay &nbsp;
+                @*@if (Model.IsLoggedIn)
+                    {
+                        <button>Delete</button>
+                    }*@
+            </div>
+        </div>
     }
 </div>
 
