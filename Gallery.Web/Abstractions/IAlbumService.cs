@@ -1,8 +1,9 @@
-﻿using Gallery.Web.Config;
-using Gallery.Web.Models;
-using Microsoft.AspNetCore.Http;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Gallery.Web.Config;
+using Gallery.Web.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Gallery.Web.Abstractions
 {
@@ -24,5 +25,7 @@ namespace Gallery.Web.Abstractions
         void UpdateAlbum(Album album);
 
         Album UpdateAlbumInfo(string name, string description, Visibility visibility);
+
+        IDictionary<DateTimeOffset, List<Album>> ListAlbumsDays(Visibility visibility);
     }
 }

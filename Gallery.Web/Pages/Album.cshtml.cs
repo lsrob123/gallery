@@ -28,7 +28,7 @@ namespace Gallery.Web.Pages
 
         public IEnumerable<UploadImage> FailedFiles { get; set; }
 
-        public bool IsNotFound => (Album is null) || (!IsLoggedIn && Album.Visibility != Visibility.Visible);
+        public bool IsNotFound => (Album is null) || (!IsLoggedIn && Album.Visibility != Visibility.Public);
 
         [BindProperty]
         public bool IsVisible { get; set; }
@@ -54,7 +54,7 @@ namespace Gallery.Web.Pages
             }
 
             UpdatedDescription = Album?.Description;
-            IsVisible = ((Album?.Visibility) ?? Visibility.Hidden) == Visibility.Visible;
+            IsVisible = ((Album?.Visibility) ?? Visibility.Private) == Visibility.Public;
             return Page();
         }
 
@@ -68,7 +68,7 @@ namespace Gallery.Web.Pages
                 return RedirectToPage(PageName);
 
             _albumService.UpdateAlbumInfo(AlbumName, updatedDescription,
-                isVisible ? Visibility.Visible : Visibility.Hidden);
+                isVisible ? Visibility.Public : Visibility.Private);
             return RedirectToPage(PageName);
         }
 

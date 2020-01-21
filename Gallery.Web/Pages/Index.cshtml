@@ -15,28 +15,26 @@
 }
 
 <div class="albums">
-    @foreach (var album in Model.Albums)
+    @foreach (var albumDay in Model.AlbumDays)
     {
-        <div class="album-block">
-            <a class="album-title" href="album/@album.Name" target="album.Name">@album.Name</a>
-            <a class="album-icons" href="album/@album.Name" target="album.Name">
-                @foreach (var entry in album.SelectedImagesForAlbumIcons)
+    <div class="album-day">
+        <div class="album-day-title">@albumDay.Key.ToString("yyyy-MM-dd")</div>
+        @foreach (var album in albumDay.Value)
+        {
+            <div class="album-day-box-title">@album.Name</div>
+            <div class="album-day-box">
+                @if (album.HasUploadImages)
                 {
-                    <div>@entry.Key</div>
-                    foreach (var uploadImage in entry.Value)
+                    foreach (var uploadImage in album.UploadImages)
                     {
-                        <img class="upload-image-icon" src="/images/@uploadImage.IconUriPath" alt="@uploadImage.ProcessedFileName" />
+                        <a class="upload-image" href="/images/@uploadImage.Value.UriPath" target="@uploadImage.Value.ProcessedFileName">>
+                            <img class="upload-image-icon" src="/images/@uploadImage.Value.IconUriPath" alt="@uploadImage.Value.ProcessedFileName" />
+                        </a>
                     }
                 }
-            </a>
-            <div class="album-info">
-                @album.InfoDisplay &nbsp;
-                @*@if (Model.IsLoggedIn)
-                    {
-                        <button>Delete</button>
-                    }*@
-            </div>
-        </div>
+             </div>
+        }
+    </div>
     }
 </div>
 

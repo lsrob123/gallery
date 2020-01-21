@@ -10,5 +10,6 @@
         int UploadImageIconHeight { get; }
         string UploadImageRootPath { get; }
         int UploadImageThumbnailHeight { get; }
+        int DaysOfAlbumsDisplayed { get; }
     }
 }

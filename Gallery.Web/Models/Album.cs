@@ -15,7 +15,7 @@ namespace Gallery.Web.Models
         public Album(string name, string description, string defaultThumbnailUriPath)
         {
             Name = name;
-            WithAlbumInfo(description, Visibility.Visible);
+            WithAlbumInfo(description, Visibility.Public);
             DefaultThumbnailUriPath = ThumbnailUriPath = defaultThumbnailUriPath;
             SetKey(Guid.NewGuid());
 
@@ -27,16 +27,9 @@ namespace Gallery.Web.Models
         public bool HasUploadImages => !(UploadImages is null) && UploadImages.Any();
         public string InfoDisplay => HasUploadImages ? $"{UploadImages.Count} photos" : "(Empty)";
         public string Name { get; set; }
-
-        //public IDictionary<DateTimeOffset, List<UploadImage>> SelectedImagesForAlbumIcons =>
-        //    CreateSelectedImagesForAlbumIcons();
-
         public string ThumbnailUriPath { get; protected set; }
-
         public DateTimeOffset TimeUpdated { get; protected set; }
-
         public Dictionary<string, UploadImage> UploadImages { get; protected set; }
-
         public Visibility Visibility { get; protected set; }
 
         public void RefreshThumbnailUri(string defaultThumbnailUriPath = null)
@@ -97,31 +90,5 @@ namespace Gallery.Web.Models
 
 
         public DateTimeOffset DayUpdated => TimeUpdated.Date;
-
-
-
-        //private Dictionary<DateTimeOffset, List<UploadImage>> CreateSelectedImagesForAlbumIcons()
-        //{
-        //    var selectedImages = new Dictionary<DateTimeOffset, List<UploadImage>>();
-        //    if (!HasUploadImages)
-        //    {
-        //        return selectedImages;
-        //    }
-
-        //    foreach (var uploadImage in UploadImages.OrderByDescending(x=>x.Value.DayUpdated))
-        //    {
-        //        if (selectedImages.TryGetValue(uploadImage.Value.DayUpdated, out var imageList))
-        //        {
-        //            imageList.Add(uploadImage.Value);
-        //        }
-        //        else
-        //        {
-        //            imageList = new List<UploadImage> { uploadImage.Value };
-        //            selectedImages.Add(uploadImage.Value.DayUpdated, imageList);
-        //        }
-        //    }
-
-        //    return selectedImages;
-        //}
     }
 }

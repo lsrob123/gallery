@@ -1,10 +1,10 @@
-﻿using Gallery.Web.Abstractions;
+﻿using System;
+using System.Collections.Generic;
+using Gallery.Web.Abstractions;
 using Gallery.Web.Config;
 using Gallery.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Gallery.Web.Pages
 {
@@ -20,7 +20,8 @@ namespace Gallery.Web.Pages
         }
 
         [BindProperty]
-        public IEnumerable<Album> Albums { get; private set; } = new List<Album>();
+        public IDictionary<DateTimeOffset, List<Album>> AlbumDays { get; private set; }
+            = new Dictionary<DateTimeOffset, List<Album>>();
 
         public string CreateAlbumButtonText => T.GetMap("Create Album");
 
@@ -45,14 +46,9 @@ namespace Gallery.Web.Pages
 
         private void LoadAlbums()
         {
-            Albums = _albumService.ListAlbums();
-
-            if (!IsLoggedIn)
-            {
-                Albums = Albums.Where(x => x.Visibility == Visibility.Visible);
-            }
-
-            Albums = Albums;
+            AlbumDays = IsLoggedIn
+                ? _albumService.ListAlbumsDays(Visibility.All)
+                : _albumService.ListAlbumsDays(Visibility.Public);
         }
     }
 }

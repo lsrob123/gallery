@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Gallery.Web.Services
@@ -52,43 +53,38 @@ namespace Gallery.Web.Services
             return albums;
         }
 
-        public Dictionary<DateTimeOffset, List<Album>> ListAlbumsInDays(int? days=90)
+        public IDictionary<DateTimeOffset, List<Album>> ListAlbumsDays(Visibility visibility)
         {
-            var albums = _albumRepository.ListAlbums()
-                .RefreshThumbnailUris(_settings.DefaultThumbnailUriPathForAlbum);
+            var albums = visibility == Visibility.All
+                ? ListAlbums().OrderByDescending(x => x.DayUpdated)
+                : ListAlbums().Where(x => x.Visibility == Visibility.Public).OrderByDescending(x => x.DayUpdated)
+                ;
 
+            var includedAlbums = new Dictionary<DateTimeOffset, List<Album>>();
+            if (!albums.Any())
+                return includedAlbums;
 
+            var daysOfAlbumsDisplayed = _settings.DaysOfAlbumsDisplayed;
+            var daysIncluded = 0;
+            foreach (var album in albums)
+            {
+                if (daysIncluded++ > daysOfAlbumsDisplayed)
+                    break;
 
+                var key = album.DayUpdated;
 
+                if (includedAlbums.TryGetValue(key, out var albumsOfDay))
+                {
+                    albumsOfDay.Add(album);
+                }
+                else
+                {
+                    albumsOfDay = new List<Album> { album };
+                    includedAlbums.Add(key, albumsOfDay);
+                }
+            }
 
-            //    var selectedImages = new Dictionary<DateTimeOffset, List<UploadImage>>();
-            //    if (!HasUploadImages)
-            //    {
-            //        return selectedImages;
-            //    }
-
-            //    foreach (var uploadImage in UploadImages.OrderByDescending(x=>x.Value.DayUpdated))
-            //    {
-            //        if (selectedImages.TryGetValue(uploadImage.Value.DayUpdated, out var imageList))
-            //        {
-            //            imageList.Add(uploadImage.Value);
-            //        }
-            //        else
-            //        {
-            //            imageList = new List<UploadImage> { uploadImage.Value };
-            //            selectedImages.Add(uploadImage.Value.DayUpdated, imageList);
-            //        }
-            //    }
-
-            //    return selectedImages;
-
-
-
-
-
-
-
-            return albums;
+            return includedAlbums;
         }
 
         public ICollection<Album> ListAlbumsByKeyword(string keyword)

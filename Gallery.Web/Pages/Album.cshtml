@@ -36,7 +36,7 @@ else if (Model.IsLoggedIn)
     </div>
 }
 
-@if (!Model.IsNotFound && Model.Album.Visibility == Visibility.Visible)
+@if (!Model.IsNotFound && Model.Album.Visibility == Visibility.Public)
 {
     @if (!Model.IsLoggedIn)
     {
