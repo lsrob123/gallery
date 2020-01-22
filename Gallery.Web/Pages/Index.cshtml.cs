@@ -19,7 +19,6 @@ namespace Gallery.Web.Pages
             _albumService = albumService;
         }
 
-        [BindProperty]
         public IDictionary<DateTimeOffset, List<Album>> AlbumDays { get; private set; }
             = new Dictionary<DateTimeOffset, List<Album>>();
 

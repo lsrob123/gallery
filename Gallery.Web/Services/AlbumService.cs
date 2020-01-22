@@ -157,7 +157,7 @@ namespace Gallery.Web.Services
         public Album UpdateAlbumInfo(string name, string description, Visibility visibility)
         {
             var album = _albumRepository.GetAlbumByName(name);
-            album.WithAlbumInfo(description, visibility);
+            album.WithAlbumInfo(description, visibility).WithTimeUpdated(DateTimeOffset.UtcNow.AddDays(-1));
             _albumRepository.UpdateAlbum(album);
             return album;
         }

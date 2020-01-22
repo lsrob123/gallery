@@ -74,13 +74,18 @@ button {
 
 .albums {
 }
+
     .albums .album-day {
     }
+
         .albums .album-day .album-day-title {
         }
 
-        .albums .album-day .album-day-box-title{
-
+        .albums .album-day .album-day-box-title {
+            display: block;
+            text-decoration: none;
+            color: white;
+            cursor: pointer;
         }
 
         .albums .album-day .album-day-box {
@@ -98,15 +103,17 @@ button {
                 display: block;
                 margin-right: 10px;
                 margin-bottom: 10px;
+                text-decoration: none;
+                cursor: pointer;
             }
 
 
-		.albums .album-day .album-day-box .upload-image .upload-image-icon {
-                	display: block;
-                	width: 120px;
-            	}
+                .albums .album-day .album-day-box .upload-image .upload-image-icon {
+                    display: block;
+                    width: 120px;
+                }
 
-        /*
+/*
         .albums .album-day .album-block {
             display: block;
             margin: 10px;

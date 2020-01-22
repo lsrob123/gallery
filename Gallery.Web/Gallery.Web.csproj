@@ -8,9 +8,9 @@
     <Folder Include="data\" />
     <Folder Include="TextMaps\" />
     <Folder Include="Models\" />
-    <Folder Include="wwwroot\images\" />
     <Folder Include="Abstractions\" />
     <Folder Include="Repositories\" />
+    <Folder Include="wwwroot\images\albums\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -19,9 +19,10 @@ namespace Gallery.Web.Models
             DefaultThumbnailUriPath = ThumbnailUriPath = defaultThumbnailUriPath;
             SetKey(Guid.NewGuid());
 
-            TimeUpdated = DateTimeOffset.UtcNow;
+            WithTimeUpdated(DateTimeOffset.UtcNow);
         }
 
+        public DateTimeOffset DayUpdated => TimeUpdated.Date;
         public string DefaultThumbnailUriPath { get; protected set; }
         public string Description { get; set; }
         public bool HasUploadImages => !(UploadImages is null) && UploadImages.Any();
@@ -67,6 +68,12 @@ namespace Gallery.Web.Models
             return this;
         }
 
+        public Album WithTimeUpdated(DateTimeOffset dateTimeOffset)
+        {
+            TimeUpdated = dateTimeOffset;
+            return this;
+        }
+
         public Album WithUploadImage(UploadImage uploadImage)
         {
             return WithUploadImages(new UploadImage[] { uploadImage });
@@ -87,8 +94,5 @@ namespace Gallery.Web.Models
 
             return this;
         }
-
-
-        public DateTimeOffset DayUpdated => TimeUpdated.Date;
     }
 }

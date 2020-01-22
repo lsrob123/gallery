@@ -21,13 +21,13 @@
         <div class="album-day-title">@albumDay.Key.ToString("yyyy-MM-dd")</div>
         @foreach (var album in albumDay.Value)
         {
-            <div class="album-day-box-title">@album.Name</div>
+            <a class="album-day-box-title" href="/album/@album.Name"> @album.Name </a>
             <div class="album-day-box">
                 @if (album.HasUploadImages)
                 {
                     foreach (var uploadImage in album.UploadImages)
                     {
-                        <a class="upload-image" href="/images/@uploadImage.Value.UriPath" target="@uploadImage.Value.ProcessedFileName">>
+                        <a class="upload-image" href="/images/@uploadImage.Value.UriPath" target="@uploadImage.Value.ProcessedFileName">
                             <img class="upload-image-icon" src="/images/@uploadImage.Value.IconUriPath" alt="@uploadImage.Value.ProcessedFileName" />
                         </a>
                     }
