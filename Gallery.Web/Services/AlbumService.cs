@@ -53,38 +53,35 @@ namespace Gallery.Web.Services
             return albums;
         }
 
-        public IDictionary<DateTimeOffset, List<Album>> ListAlbumsDays(Visibility visibility)
+        public AlbumDaysCollection ListAlbumDays(Visibility visibility)
         {
+            var albumDays = new AlbumDaysCollection();
+
             var albums = visibility == Visibility.All
                 ? ListAlbums().OrderByDescending(x => x.DayUpdated)
-                : ListAlbums().Where(x => x.Visibility == Visibility.Public).OrderByDescending(x => x.DayUpdated)
+                : ListAlbums()
+                    .Where(x => x.Visibility == Visibility.Public)
+                    .OrderByDescending(x => x.DayUpdated)
                 ;
 
-            var includedAlbums = new Dictionary<DateTimeOffset, List<Album>>();
             if (!albums.Any())
-                return includedAlbums;
+                return albumDays;
 
             var daysOfAlbumsDisplayed = _settings.DaysOfAlbumsDisplayed;
             var daysIncluded = 0;
             foreach (var album in albums)
             {
-                if (daysIncluded++ > daysOfAlbumsDisplayed)
-                    break;
-
-                var key = album.DayUpdated;
-
-                if (includedAlbums.TryGetValue(key, out var albumsOfDay))
+                if (daysIncluded++ <= daysOfAlbumsDisplayed)
                 {
-                    albumsOfDay.Add(album);
+                    albumDays.ForFullDetails.AddAlbum(album);
                 }
                 else
                 {
-                    albumsOfDay = new List<Album> { album };
-                    includedAlbums.Add(key, albumsOfDay);
+                    albumDays.ForTextLinksOnly.AddAlbum(album);
                 }
             }
 
-            return includedAlbums;
+            return albumDays;
         }
 
         public ICollection<Album> ListAlbumsByKeyword(string keyword)

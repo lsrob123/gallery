@@ -26,6 +26,6 @@ namespace Gallery.Web.Abstractions
 
         Album UpdateAlbumInfo(string name, string description, Visibility visibility);
 
-        IDictionary<DateTimeOffset, List<Album>> ListAlbumsDays(Visibility visibility);
+        AlbumDaysCollection ListAlbumDays(Visibility visibility);
     }
 }

@@ -19,8 +19,7 @@ namespace Gallery.Web.Pages
             _albumService = albumService;
         }
 
-        public IDictionary<DateTimeOffset, List<Album>> AlbumDays { get; private set; }
-            = new Dictionary<DateTimeOffset, List<Album>>();
+        public AlbumDaysCollection AlbumDays { get; private set; } = new AlbumDaysCollection();
 
         public string CreateAlbumButtonText => T.GetMap("Create Album");
 
@@ -46,8 +45,8 @@ namespace Gallery.Web.Pages
         private void LoadAlbums()
         {
             AlbumDays = IsLoggedIn
-                ? _albumService.ListAlbumsDays(Visibility.All)
-                : _albumService.ListAlbumsDays(Visibility.Public);
+                ? _albumService.ListAlbumDays(Visibility.All)
+                : _albumService.ListAlbumDays(Visibility.Public);
         }
     }
 }

@@ -1,7 +1,8 @@
-﻿using Gallery.Web.Abstractions;
-using Gallery.Web.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Gallery.Web.Abstractions;
+using Gallery.Web.Models;
 
 namespace Gallery.Web.Services
 {
@@ -24,6 +25,28 @@ namespace Gallery.Web.Services
 
             entity.SetKey(key.Value);
             return entity;
+        }
+
+        public static IDictionary<DateTimeOffset, List<Album>> AddAlbum
+            (this IDictionary<DateTimeOffset, List<Album>> albums, Album album)
+        {
+            var key = album.DayUpdated;
+            if (albums.TryGetValue(key, out var albumsOfDay))
+            {
+                albumsOfDay.Add(album);
+            }
+            else
+            {
+                albumsOfDay = new List<Album> { album };
+                albums.Add(key, albumsOfDay);
+            }
+            return albums;
+        }
+
+        public static bool HasAlbums
+           (this IDictionary<DateTimeOffset, List<Album>> albums)
+        {
+            return !(albums is null) && albums.Any();
         }
     }
 }

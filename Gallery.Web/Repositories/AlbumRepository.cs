@@ -61,7 +61,8 @@ namespace Gallery.Web.Repositories
             try
             {
                 using var store = new AlbumDataStore(_settings);
-                var albums = store.Albums.FindAll().OrderByDescending(x=>x.TimeUpdated).ToList();
+                var albums = store.Albums.Find(Query.All(Query.Descending), limit: _settings.AlbumCountMax).ToList();
+                //var albums = store.Albums.FindAll().OrderByDescending(x=>x.TimeUpdated).ToList();
                 return albums;
             }
             catch (Exception e)

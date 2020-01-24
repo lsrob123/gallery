@@ -24,5 +24,6 @@ namespace Gallery.Web.Config
         public string UploadImageRootPath => _configuration.GetValue<string>(nameof(UploadImageRootPath));
         public int UploadImageThumbnailHeight => _configuration.GetValue<int>(nameof(UploadImageThumbnailHeight));
         public int DaysOfAlbumsDisplayed => _configuration.GetValue<int>(nameof(DaysOfAlbumsDisplayed));
+        public int AlbumCountMax => _configuration.GetValue<int>(nameof(AlbumCountMax));
     }
 }

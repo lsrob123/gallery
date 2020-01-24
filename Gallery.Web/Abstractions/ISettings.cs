@@ -11,5 +11,6 @@
         string UploadImageRootPath { get; }
         int UploadImageThumbnailHeight { get; }
         int DaysOfAlbumsDisplayed { get; }
+        int AlbumCountMax { get; }
     }
 }
