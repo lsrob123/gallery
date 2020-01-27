@@ -9,7 +9,7 @@ namespace Gallery.Web.Abstractions
 {
     public interface IAlbumService
     {
-        void CreateAlbum(string name, string description);
+        void CreateAlbum(string name, string description, int dayOffset);
 
         void DeleteAlbum(string albumName);
 

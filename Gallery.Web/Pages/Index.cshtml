@@ -8,7 +8,8 @@
 {
     <div class="panel-tools">
         <form method="post">
-            <input type="text" required="required" name="albumName" />
+            Ablbum Name <input type="text" required="required" name="albumName" />
+            Day Offset for Time Creation <input type="number" required="required" name="dayOffset" />
             <button asp-page-handler="CreateAlbum">@Model.CreateAlbumButtonText</button>
         </form>
     </div>

@@ -46,13 +46,6 @@ namespace Gallery.Web.Services
             return _albumRepository.GetAlbumByName(name);
         }
 
-        public ICollection<Album> ListAlbums()
-        {
-            var albums = _albumRepository.ListAlbums()
-                .RefreshThumbnailUris(_settings.DefaultThumbnailUriPathForAlbum);
-            return albums;
-        }
-
         public AlbumDaysCollection ListAlbumDays(Visibility visibility)
         {
             var albumDays = new AlbumDaysCollection();
@@ -82,6 +75,13 @@ namespace Gallery.Web.Services
             }
 
             return albumDays;
+        }
+
+        public ICollection<Album> ListAlbums()
+        {
+            var albums = _albumRepository.ListAlbums()
+                .RefreshThumbnailUris(_settings.DefaultThumbnailUriPathForAlbum);
+            return albums;
         }
 
         public ICollection<Album> ListAlbumsByKeyword(string keyword)
@@ -154,7 +154,7 @@ namespace Gallery.Web.Services
         public Album UpdateAlbumInfo(string name, string description, Visibility visibility)
         {
             var album = _albumRepository.GetAlbumByName(name);
-            album.WithAlbumInfo(description, visibility).WithTimeUpdated(DateTimeOffset.UtcNow.AddDays(-1));
+            album.WithAlbumInfo(description, visibility).WithTimeUpdated(DateTimeOffset.UtcNow);
             _albumRepository.UpdateAlbum(album);
             return album;
         }

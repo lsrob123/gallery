@@ -32,12 +32,12 @@ namespace Gallery.Web.Pages
             LoadAlbums();
         }
 
-        public IActionResult OnPostCreateAlbum(string albumName)
+        public IActionResult OnPostCreateAlbum(string albumName, int dayOffset)
         {
             if (!IsLoggedIn)
                 return Page();
 
-            _albumService.CreateAlbum(albumName, null);
+            _albumService.CreateAlbum(albumName, null, dayOffset);
             LoadAlbums();
             return RedirectToPage(PageName);
         }
