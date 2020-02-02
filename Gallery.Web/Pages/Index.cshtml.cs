@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Gallery.Web.Abstractions;
+﻿using Gallery.Web.Abstractions;
 using Gallery.Web.Config;
 using Gallery.Web.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -23,9 +21,9 @@ namespace Gallery.Web.Pages
 
         public string CreateAlbumButtonText => T.GetMap("Create Album");
 
-        public override string PageName => Constants.HomePageName;
+        public override string PageName => PageDefinitions.Home.PageName;
 
-        public override string PageTitle => Constants.HomePageTitle;
+        public override string PageTitle => PageDefinitions.Home.PageTitle;
 
         public void OnGet()
         {

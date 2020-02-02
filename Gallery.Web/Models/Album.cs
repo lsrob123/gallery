@@ -12,26 +12,41 @@ namespace Gallery.Web.Models
         {
         }
 
-        public Album(string name, string description, string defaultThumbnailUriPath)
+        public Album(string name, string description, string defaultThumbnailUriPath, int dayOffset)
         {
             Name = name;
             WithAlbumInfo(description, Visibility.Public);
             DefaultThumbnailUriPath = ThumbnailUriPath = defaultThumbnailUriPath;
             SetKey(Guid.NewGuid());
 
+            TimeCreated = DateTimeOffset.UtcNow.AddDays(dayOffset);
             WithTimeUpdated(DateTimeOffset.UtcNow);
         }
 
-        public DateTimeOffset DayUpdated => TimeUpdated.Date;
+        public DateTimeOffset DayCreated => TimeCreated.Date;
         public string DefaultThumbnailUriPath { get; protected set; }
-        public string Description { get; set; }
+        public string Description { get; protected set; }
+        public string DisplayState { get; protected set; }
         public bool HasUploadImages => !(UploadImages is null) && UploadImages.Any();
         public string InfoDisplay => HasUploadImages ? $"{UploadImages.Count} photos" : "(Empty)";
-        public string Name { get; set; }
+        public string Name { get; protected set; }
         public string ThumbnailUriPath { get; protected set; }
+        public DateTimeOffset TimeCreated { get; protected set; }
         public DateTimeOffset TimeUpdated { get; protected set; }
         public Dictionary<string, UploadImage> UploadImages { get; protected set; }
         public Visibility Visibility { get; protected set; }
+
+        public Album MarkAsNormal()
+        {
+            DisplayState = AlbumDisplayStates.Normal;
+            return this;
+        }
+
+        public Album MarkAsSticky()
+        {
+            DisplayState = AlbumDisplayStates.Sticky;
+            return this;
+        }
 
         public void RefreshThumbnailUri(string defaultThumbnailUriPath = null)
         {
@@ -65,12 +80,13 @@ namespace Gallery.Web.Models
         {
             Description = description;
             Visibility = visibility;
+            WithTimeUpdated(DateTimeOffset.UtcNow);
             return this;
         }
 
-        public Album WithTimeUpdated(DateTimeOffset dateTimeOffset)
+        public Album WithTimeUpdated(DateTimeOffset timeUpdated)
         {
-            TimeUpdated = dateTimeOffset;
+            TimeUpdated = timeUpdated;
             return this;
         }
 

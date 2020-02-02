@@ -86,6 +86,7 @@ button {
             text-decoration: none;
             color: white;
             cursor: pointer;
+            margin-top: 10px;
         }
 
         .albums .album-day .album-day-box {
@@ -95,74 +96,26 @@ button {
             justify-content: start;
             align-items: flex-start;
             align-content: flex-start;
-            padding-left: 10px;
-            padding-top: 5px;
+            margin-top: 10px;
         }
 
-            .albums .album-day .album-day-box .upload-image {
-                display: block;
-                margin-right: 10px;
-                margin-bottom: 10px;
-                text-decoration: none;
-                cursor: pointer;
-            }
+.album-image {
+    display: block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 3px;
+    background-color: white;
+    box-shadow: 0px 3px 20px 5px rgba(0,0,0,0.8);
+}
 
 
-                .albums .album-day .album-day-box .upload-image .upload-image-icon {
-                    display: block;
-                    width: 120px;
-                }
+.album-image-thumb {
+    display: block;
+    height: 100px;
+}
 
-/*
-        .albums .album-day .album-block {
-            display: block;
-            margin: 10px;
-            background: linear-gradient(to bottom, rgba(242,246,248,1) 0%,rgba(216,225,231,1) 50%,rgba(181,198,208,1) 51%,rgba(224,239,249,1) 100%);
-            box-shadow: 0px 3px 20px 5px rgba(0,0,0,0.8);
-            border-radius: 4px;
-        }
-
-        .albums .album-day .album-block .album-icons {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: start;
-            align-items: flex-start;
-            align-content: flex-start;
-            width: 363px;
-            height: 243px;
-            overflow: hidden;
-            padding-left: 1px;
-            padding-top: 1px;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-            .albums .album-day .album-block .album-icons .upload-image-icon {
-                display: block;
-                width: 120px;
-                margin-right: 1px;
-                margin-bottom: 1px;
-            }
-
-        .albums .album-day .album-block .album-title {
-            display: block;
-            margin: 10px;
-            word-wrap: normal;
-            color: black;
-            font-size: 16px;
-            font-weight: bold;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .albums .album-day .album-block .album-info {
-            display: block;
-            margin: 10px;
-            word-wrap: normal;
-            color: black;
-            font-size: 12px;
-        } */
 
 .album-info-editor {
     display: flex;
@@ -194,14 +147,27 @@ button {
     .photos .photo-block {
         display: block;
         margin: 10px;
-        padding: 10px;
+        padding: 7px;
         background-color: white;
-        text-decoration: none;
-        cursor: pointer;
         box-shadow: 0px 3px 20px 5px rgba(0,0,0,0.8);
     }
+
+        .photos .photo-block a {
+            text-decoration: none;
+            cursor: pointer;
+        }
 
         .photos .photo-block .thumb {
             height: 300px;
             display: block;
         }
+
+        .photos .photo-block .editing-area {
+            font-size: 12px;
+            color: black;
+            margin-top: 10px;
+        }
+
+            .photos .photo-block .editing-area .display-order {
+                width: 40px;
+            }

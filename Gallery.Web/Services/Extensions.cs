@@ -30,7 +30,7 @@ namespace Gallery.Web.Services
         public static IDictionary<DateTimeOffset, List<Album>> AddAlbum
             (this IDictionary<DateTimeOffset, List<Album>> albums, Album album)
         {
-            var key = album.DayUpdated;
+            var key = album.DayCreated;
             if (albums.TryGetValue(key, out var albumsOfDay))
             {
                 albumsOfDay.Add(album);

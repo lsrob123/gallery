@@ -29,7 +29,6 @@ else if (Model.IsLoggedIn)
 
     <div class="top-gap">
         <form method="post" enctype="multipart/form-data">
-            <!--<input type="file" required="required" name="files" multiple="multiple" />-->
             <input type="file" required="required" name="files" multiple="multiple" accept="image/*" />
             <button asp-page-handler="Upload">Upload Files</button>
         </form>
@@ -47,9 +46,18 @@ else if (Model.IsLoggedIn)
         {
             foreach (var uploadImage in Model.Album.UploadImages)
             {
-                <a class="photo-block" href="/images/@uploadImage.Value.UriPath" target="@uploadImage.Value.ProcessedFileName">
-                    <img class="thumb" src="/images/@uploadImage.Value.ThumbnailUriPath" />
-                </a>
+                <div class="photo-block">
+                    <a href="/images/@uploadImage.Value.UriPath" target="@uploadImage.Value.ProcessedFileName">
+                        <img class="thumb" src="/images/@uploadImage.Value.ThumbnailUriPath" />
+                    </a>
+                    @if (Model.IsLoggedIn)
+                    {
+                        <div class="editing-area">
+                            Display Order <input type="number" class="display-order" id="@uploadImage.Key" 
+                                                 value="@uploadImage.Value.DisplayOrder" />
+                        </div>
+                    }
+                </div>
             }
         }
         else
@@ -61,6 +69,6 @@ else if (Model.IsLoggedIn)
 
 @section PageHeader
 {
-    <a class="header-link" href="/">@T.GetMap(Constants.HomePageTitle)</a>
+    <a class="header-link" href="/">@T.GetMap(PageDefinitions.Home.PageTitle)</a>
     <span class="arrow">&#9654;</span> @T.GetMap(Model.AlbumName)
 }

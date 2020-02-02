@@ -30,9 +30,9 @@ namespace Gallery.Web.Services
             _albumRepository = albumRepository;
         }
 
-        public void CreateAlbum(string name, string description)
+        public void CreateAlbum(string name, string description, int dayOffset)
         {
-            var album = new Album(name, description, _settings.DefaultThumbnailUriPathForAlbum);
+            var album = new Album(name, description, _settings.DefaultThumbnailUriPathForAlbum, - Math.Abs(dayOffset));
             _albumRepository.UpdateAlbum(album);
         }
 
@@ -51,10 +51,10 @@ namespace Gallery.Web.Services
             var albumDays = new AlbumDaysCollection();
 
             var albums = visibility == Visibility.All
-                ? ListAlbums().OrderByDescending(x => x.DayUpdated)
+                ? ListAlbums().OrderByDescending(x => x.DayCreated)
                 : ListAlbums()
                     .Where(x => x.Visibility == Visibility.Public)
-                    .OrderByDescending(x => x.DayUpdated)
+                    .OrderByDescending(x => x.DayCreated)
                 ;
 
             if (!albums.Any())
@@ -153,14 +153,37 @@ namespace Gallery.Web.Services
 
         public Album UpdateAlbumInfo(string name, string description, Visibility visibility)
         {
-            var album = _albumRepository.GetAlbumByName(name);
-            album.WithAlbumInfo(description, visibility).WithTimeUpdated(DateTimeOffset.UtcNow);
-            _albumRepository.UpdateAlbum(album);
+            var album = _albumRepository.GetAlbumByName(name)?.WithAlbumInfo(description, visibility);
+
+            if (album is null)
+                return null; //TODO: Add process result
+
+            UpdateAlbum(album);
             return album;
         }
 
+        public (Album Album, ProcessResult ProcessResult) UpdateUploadImageDisplayOrder
+            (string albumName, string processedFileName, int displayOrder)
+        {
+            (Album Album, ProcessResult ProcessResult) result = (Album: null, ProcessResult: ProcessResult.Unknown);
+            var album = _albumRepository.GetAlbumByName(albumName);
+            if (album is null||!album.HasUploadImages|| 
+                !album.UploadImages.TryGetValue(processedFileName, out var uploadImage))
+            {
+                result.ProcessResult = ProcessResult.NotFound;
+                return result;
+            }
+
+            uploadImage.WithDisplayOrder(displayOrder);
+            UpdateAlbum(album);
+
+            result.Album = album;
+            result.ProcessResult = ProcessResult.OK;
+            return result;
+        }
+
         private static void CheckFileExistence(string albumPath, string processedFilePath,
-                    UploadImage processedFile)
+            UploadImage processedFile)
         {
             if (File.Exists(processedFilePath))
             {

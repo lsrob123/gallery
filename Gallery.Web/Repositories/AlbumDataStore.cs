@@ -21,7 +21,7 @@ namespace Gallery.Web.Repositories
 
             Albums = _db.GetCollection<Album>(nameof(Album));
             Albums.EnsureIndex(x => x.Name, true);
-            Albums.EnsureIndex(x => x.TimeUpdated, false);
+            Albums.EnsureIndex(x => x.TimeCreated, false);
         }
 
         public LiteCollection<Album> Albums { get; }

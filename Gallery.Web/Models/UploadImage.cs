@@ -28,6 +28,8 @@ namespace Gallery.Web.Models
 
         public string Description { get; protected set; }
 
+        public int DisplayOrder { get; protected set; }
+
         [JsonIgnore]
         public IFormFile FormFile { get; }
 
@@ -36,7 +38,6 @@ namespace Gallery.Web.Models
         public bool IsSuccess { get; protected set; }
         public string OriginalFileName => FormFile?.Name;
         public string ProcessedFileName { get; protected set; }
-        public int SequenceNumber { get; protected set; }
         public string ThumbnailFileName { get; protected set; }
         public string ThumbnailUriPath { get; protected set; }
         public DateTimeOffset TimeUpdated { get; protected set; }
@@ -79,18 +80,18 @@ namespace Gallery.Web.Models
             return this;
         }
 
+        public UploadImage WithDisplayOrder(int sequenceNumber)
+        {
+            DisplayOrder = sequenceNumber;
+            return this;
+        }
+
         public UploadImage WithinAlbum(string albumRootPath, string albumName)
         {
             var rootPath = $"{albumRootPath.Trim().TrimStart('/').TrimEnd('/')}/{albumName.Trim().TrimStart('/').TrimEnd('/')}";
             UriPath = $"{rootPath}/{ProcessedFileName}";
             ThumbnailUriPath = $"{rootPath}/{ThumbnailFileName}";
             IconUriPath = $"{rootPath}/{IconFileName}";
-            return this;
-        }
-
-        public UploadImage WithSequenceNumber(int sequenceNumber)
-        {
-            SequenceNumber = sequenceNumber;
             return this;
         }
     }

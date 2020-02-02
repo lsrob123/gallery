@@ -1,7 +1,7 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData[Constants.PageTitle] = "Home";
+    ViewData[Constants.PageTitle] = @T.GetMap(PageDefinitions.Home.PageTitle);
 }
 
 @if (Model.IsLoggedIn)
@@ -21,22 +21,22 @@
         foreach (var albumDay in Model.AlbumDays.ForFullDetails)
         {
             <div class="album-day">
-            <div class="album-day-title">@albumDay.Key.ToString("yyyy-MM-dd")</div>
-            @foreach (var album in albumDay.Value)
-            {
-                <a class="album-day-box-title" href="/album/@album.Name"> @album.Name </a>
-                <div class="album-day-box">
-                    @if (album.HasUploadImages)
-                    {
-                        foreach (var uploadImage in album.UploadImages)
+                <div class="album-day-title">@albumDay.Key.ToString("yyyy-MM-dd")</div>
+                @foreach (var album in albumDay.Value)
+                {
+                    <a class="album-day-box-title" href="/album/@album.Name" target="@album.Name"> @album.Name </a>
+                    <div class="album-day-box">
+                        @if (album.HasUploadImages)
                         {
-                            <a class="upload-image" href="/images/@uploadImage.Value.UriPath" target="@uploadImage.Value.ProcessedFileName">
-                                <img class="upload-image-icon" src="/images/@uploadImage.Value.IconUriPath" alt="@uploadImage.Value.ProcessedFileName" />
-                            </a>
+                            foreach (var uploadImage in album.UploadImages)
+                            {
+                                <a class="album-image" href="/images/@uploadImage.Value.UriPath" target="@uploadImage.Value.ProcessedFileName">
+                                    <img class="album-image-thumb" src="/images/@uploadImage.Value.IconUriPath" alt="@uploadImage.Value.ProcessedFileName" />
+                                </a>
+                            }
                         }
-                    }
-                 </div>
-            }
+                    </div>
+                }
             </div>
         }
     }
@@ -49,5 +49,5 @@
 
 @section PageHeader
 {
-    <a class="header-link" href="/">@T.GetMap(Model.PageName)</a>
+    <a class="header-link" href="/">@T.GetMap(PageDefinitions.Home.PageTitle)</a>
 }
