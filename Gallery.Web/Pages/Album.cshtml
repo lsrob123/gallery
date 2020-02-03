@@ -53,8 +53,9 @@ else if (Model.IsLoggedIn)
                     @if (Model.IsLoggedIn)
                     {
                         <div class="editing-area">
-                            Display Order <input type="number" class="display-order" id="@uploadImage.Key" 
-                                                 value="@uploadImage.Value.DisplayOrder" />
+                            Display Order 
+                            <input type="number" class="display-order" id="@uploadImage.Key" value="@uploadImage.Value.DisplayOrder" 
+                                   onchange="album.updateUploadImageDisplayOrderAsync('@Model.Album.Name', '@uploadImage.Key', this.value)" />
                         </div>
                     }
                 </div>

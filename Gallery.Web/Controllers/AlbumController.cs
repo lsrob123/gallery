@@ -6,8 +6,8 @@ using Microsoft.Extensions.Logging;
 
 namespace Gallery.Web.Controllers
 {
+    [Route("api/album")]
     [ApiController]
-    [Route("album")]
     public class AlbumController: ControllerBase
     {
         private readonly ILogger<AlbumController> _logger;
@@ -24,7 +24,7 @@ namespace Gallery.Web.Controllers
         public IActionResult UpdateUploadImageDisplayOrder([FromRoute]string albumName, 
             [FromRoute]string processedFileName, [FromBody] UpdateUploadImageDisplayOrderRequest request)
         {
-            var result = _albumService.UpdateUploadImageDisplayOrder(albumName, processedFileName, request.DisplayOrder);
+            var result = _albumService.UpdateUploadImageDisplayOrder(albumName, $"{processedFileName}.jpg", request.DisplayOrder);
             return result.ProcessResult switch
             {
                 ProcessResult.NotFound => NotFound(),

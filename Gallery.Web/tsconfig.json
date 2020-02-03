@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "target": "es5",
+    "lib": [ "es2015", "DOM", "ES2017", "DOM.Iterable" ]
+  },
+  "files": [ "wwwroot/js/settings.ts", "wwwroot/js/api-call-result.ts", "wwwroot/js/service.ts", "wwwroot/js/site.ts" ],
+  "exclude": [
+    "node_modules",
+    "wwwroot"
+  ]
+}

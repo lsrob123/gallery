@@ -15,7 +15,7 @@ namespace Gallery.Web
                 .WriteTo.Console()
                 .WriteTo.File(
                     Path.Combine(Directory.GetCurrentDirectory(), "logs", "log.txt"),
-                    LogEventLevel.Error,
+                    LogEventLevel.Information,
                     rollingInterval: RollingInterval.Hour)
                 .CreateLogger();
 

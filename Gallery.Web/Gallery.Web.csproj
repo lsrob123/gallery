@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\api-call-result.ts" />
+    <Content Remove="wwwroot\js\service.ts" />
+    <Content Remove="wwwroot\js\settings.ts" />
+    <Content Remove="wwwroot\js\site.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="data\" />
     <Folder Include="logs\" />
     <Folder Include="TextMaps\" />
@@ -14,6 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.7.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="SkiaSharp" Version="1.68.1.1" />
     <PackageReference Include="LiteDB" Version="4.1.4" />
     <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />

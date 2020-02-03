@@ -74,6 +74,8 @@ namespace Gallery.Web
             {
                 endpoints.MapRazorPages();
             });
+
+            
         }
     }
 }
