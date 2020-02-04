@@ -1,6 +1,7 @@
 ﻿using Gallery.Web.Abstractions;
 using Gallery.Web.Config;
 using Gallery.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -19,6 +20,7 @@ namespace Gallery.Web.Controllers
             _albumService = albumService;
         }
 
+        [Authorize]
         [HttpPut]
         [Route("{albumName}/image/{processedFileName}")]
         public IActionResult UpdateUploadImageDisplayOrder([FromRoute]string albumName, 

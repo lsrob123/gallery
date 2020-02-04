@@ -2,6 +2,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #064b70;
 }
 
 button {
@@ -14,11 +15,12 @@ button {
     right: 0;
     top: 0;
     height: 40px;
-    background-color: #22324a;
+    background-color: #ff6030;
+    box-shadow: 0px 3px 8px -2px rgba(0,0,0,0.75);
 }
 
     .header .page-title {
-        margin: 8px;
+        margin: 8px 15px;
         font-size: 18px;
         color: white;
     }
@@ -43,11 +45,10 @@ button {
     position: absolute;
     left: 0;
     right: 0;
-    top: 40px;
+    top: 50px;
     bottom: 40px;
     overflow: auto;
-    padding: 20px;
-    background-color: #0d182a;
+    padding: 0 10px 10px 10px;
     color: white;
 }
 
@@ -57,7 +58,7 @@ button {
     right: 0;
     bottom: 0;
     height: 40px;
-    background-color: #22324a;
+    background-color: #0b6291;
 }
 
 .top-gap {
@@ -76,9 +77,14 @@ button {
 }
 
     .albums .album-day {
+        margin-bottom: 30px;
     }
 
         .albums .album-day .album-day-title {
+            margin: 20px 5px 0 10px;
+            padding: 5px 150px 5px 10px;
+            background-image: linear-gradient(to right, rgba(230,230,255,0.30), rgb(6, 75, 112, 0.5));
+            display: table;
         }
 
         .albums .album-day .album-day-box-title {
@@ -86,7 +92,7 @@ button {
             text-decoration: none;
             color: white;
             cursor: pointer;
-            margin-top: 10px;
+            margin: 10px 10px 5px 12px;
         }
 
         .albums .album-day .album-day-box {
@@ -96,13 +102,12 @@ button {
             justify-content: start;
             align-items: flex-start;
             align-content: flex-start;
-            margin-top: 10px;
+            margin-top: 5px;
         }
 
 .album-image {
     display: block;
-    margin-right: 10px;
-    margin-bottom: 10px;
+    margin: 10px 10px 15px 10px;
     text-decoration: none;
     cursor: pointer;
     padding: 3px;
@@ -127,8 +132,7 @@ button {
 }
 
     .album-info-editor .album-info-field {
-        margin-right: 5px;
-        margin-bottom: 5px;
+        margin: 10px;
     }
 
 .album-info {
@@ -146,7 +150,7 @@ button {
 
     .photos .photo-block {
         display: block;
-        margin: 10px;
+        margin: 20px;
         padding: 7px;
         background-color: white;
         box-shadow: 0px 3px 20px 5px rgba(0,0,0,0.8);

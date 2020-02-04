@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace Gallery.Web
 {
@@ -25,30 +26,6 @@ namespace Gallery.Web
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddHttpContextAccessor();
-            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-            services.AddSingleton<ISettings, Settings>();
-            services.AddSingleton<IPasswordHasher<UserModel>, PasswordHasher<UserModel>>();
-            services.AddSingleton<IAlbumRepository, AlbumRepository>();
-            services.AddSingleton<IAuthService, AuthService>();
-            services.AddSingleton<ITextMapService, TextMapService>();
-            services.AddSingleton<IImageProcessService, ImageProcessService>();
-            services.AddSingleton<IAlbumService, AlbumService>();
-
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            }).AddCookie();
-
-            services.AddRazorPages();
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
@@ -75,8 +52,39 @@ namespace Gallery.Web
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
             });
+        }
 
-            
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddHttpContextAccessor();
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddSingleton<ISettings, Settings>();
+            services.AddSingleton<IPasswordHasher<UserModel>, PasswordHasher<UserModel>>();
+            services.AddSingleton<IAlbumRepository, AlbumRepository>();
+            services.AddSingleton<IAuthService, AuthService>();
+            services.AddSingleton<ITextMapService, TextMapService>();
+            services.AddSingleton<IImageProcessService, ImageProcessService>();
+            services.AddSingleton<IAlbumService, AlbumService>();
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            })
+            .AddCookie(options =>
+            {
+                options.Events.OnRedirectToLogin = context =>
+                {
+                    //context.Response.Headers["Location"] = context.RedirectUri;
+                    context.Response.StatusCode = 404;
+                    return Task.CompletedTask;
+                };
+            });
+
+            services.AddRazorPages();
         }
     }
 }
