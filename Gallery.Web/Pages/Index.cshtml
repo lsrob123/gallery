@@ -28,10 +28,10 @@
                     <div class="album-day-box">
                         @if (album.HasUploadImages)
                         {
-                            foreach (var uploadImage in album.UploadImages)
+                            foreach (var uploadImage in album.SortedUploadImages)
                             {
-                                <a class="album-image" href="/images/@uploadImage.Value.UriPath" target="@uploadImage.Value.ProcessedFileName">
-                                    <img class="album-image-thumb" src="/images/@uploadImage.Value.IconUriPath" alt="@uploadImage.Value.ProcessedFileName" />
+                                <a class="album-image" href="/images/@uploadImage.UriPath" target="@uploadImage.ProcessedFileName">
+                                    <img class="album-image-thumb" src="/images/@uploadImage.IconUriPath" alt="@uploadImage.ProcessedFileName" />
                                 </a>
                             }
                         }

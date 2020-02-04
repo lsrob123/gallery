@@ -36,6 +36,8 @@ namespace Gallery.Web.Models
         public Dictionary<string, UploadImage> UploadImages { get; protected set; }
         public Visibility Visibility { get; protected set; }
 
+        public ICollection<UploadImage> SortedUploadImages => UploadImages?.Values.OrderBy(x => x.DisplayOrder).ToList();
+
         public Album MarkAsNormal()
         {
             DisplayState = AlbumDisplayStates.Normal;

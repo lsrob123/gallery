@@ -38,7 +38,7 @@ var Service = /** @class */ (function () {
     function Service(settings) {
         var _this = this;
         this.updateUploadImageDisplayOrderAsync = function (albumName, processedFileName, value) { return __awaiter(_this, void 0, void 0, function () {
-            var request, uri, rawResponse;
+            var request, uri, rawResponse, data;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -56,9 +56,12 @@ var Service = /** @class */ (function () {
                             })];
                     case 1:
                         rawResponse = _a.sent();
-                        return [2 /*return*/, !!rawResponse.ok
-                                ? new ApiCallResult().withSuccess('OK')
-                                : new ApiCallResult().withError(rawResponse.statusText, rawResponse.status)];
+                        if (!!!rawResponse.ok) return [3 /*break*/, 3];
+                        return [4 /*yield*/, rawResponse.json()];
+                    case 2:
+                        data = _a.sent();
+                        return [2 /*return*/, new ApiCallResult().withSuccess(data)];
+                    case 3: return [2 /*return*/, new ApiCallResult().withError(rawResponse.statusText, rawResponse.status)];
                 }
             });
         }); };

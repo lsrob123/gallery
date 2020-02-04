@@ -166,8 +166,18 @@ button {
             font-size: 12px;
             color: black;
             margin-top: 10px;
+            font-weight: normal;
         }
 
             .photos .photo-block .editing-area .display-order {
                 width: 40px;
+            }
+
+            .photos .photo-block .editing-area .edit-icon {
+                height: 16px;
+                width: auto;
+                display: inline;
+                position: relative;
+                top: 3px;
+                cursor: pointer;
             }

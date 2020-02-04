@@ -10,8 +10,7 @@
             displayOrder: parseInt(value)
         };
         processedFileName = processedFileName.toLowerCase();
-        //.replace('.jpg', '').replace('.png', '');
-        //TODO: Replace with regex.
+
         const uri = `/api/album/${albumName}/image/${processedFileName}`;
         const rawResponse = await fetch(uri, {
             method: 'PUT',
@@ -21,8 +20,11 @@
             body: JSON.stringify(request)
         });
 
-        return !!rawResponse.ok
-            ? new ApiCallResult().withSuccess('OK')
-            : new ApiCallResult().withError(rawResponse.statusText, rawResponse.status);
+        if (!!rawResponse.ok) {
+            const data = await rawResponse.json();
+            return new ApiCallResult().withSuccess(data);
+        }
+
+        return new ApiCallResult().withError(rawResponse.statusText, rawResponse.status);
     }
 }

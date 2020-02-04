@@ -36,22 +36,54 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var Album = /** @class */ (function () {
     function Album(settings, service) {
-        var _this = this;
-        this.updateUploadImageDisplayOrderAsync = function (albumName, processedFileName, value) { return __awaiter(_this, void 0, void 0, function () {
+        this.settings = settings;
+        this.service = service;
+    }
+    Album.prototype.getDisplayOrderSpan = function (processedFileName) {
+        return document.getElementById("span_" + processedFileName);
+    };
+    Album.prototype.getDisplayOrderNumber = function (processedFileName) {
+        return document.getElementById("number_" + processedFileName);
+    };
+    Album.prototype.getEditIcon = function (processedFileName) {
+        return document.getElementById("icon_" + processedFileName);
+    };
+    Album.prototype.updateUploadImageDisplayOrderAsync = function (albumName, processedFileName, value) {
+        return __awaiter(this, void 0, void 0, function () {
             var result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.service.updateUploadImageDisplayOrderAsync(albumName, processedFileName, value)];
                     case 1:
                         result = _a.sent();
-                        alert(result.message);
+                        if (!result.ok) {
+                            alert(result.message);
+                            return [2 /*return*/];
+                        }
+                        this.getDisplayOrderSpan(processedFileName).innerText = result.data.displayOrder;
+                        this.toggleEditState(processedFileName, false);
                         return [2 /*return*/];
                 }
             });
-        }); };
-        this.settings = settings;
-        this.service = service;
-    }
+        });
+    };
+    Album.prototype.toggleEditState = function (processedFileName, isEditing) {
+        var number = this.getDisplayOrderNumber(processedFileName);
+        var span = this.getDisplayOrderSpan(processedFileName);
+        var icon = this.getEditIcon(processedFileName);
+        var none = "none";
+        var inline = "inline";
+        if (!isEditing) {
+            number.style.display = none;
+            span.style.display = inline;
+            icon.style.display = inline;
+        }
+        else {
+            number.style.display = inline;
+            span.style.display = none;
+            icon.style.display = none;
+        }
+    };
     return Album;
 }());
 //# sourceMappingURL=album.js.map

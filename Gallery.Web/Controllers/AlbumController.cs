@@ -28,7 +28,7 @@ namespace Gallery.Web.Controllers
             return result.ProcessResult switch
             {
                 ProcessResult.NotFound => NotFound(),
-                _ => Ok(),
+                _ => Ok(result.Album.UploadImages[processedFileName]),
             };
         }
     }

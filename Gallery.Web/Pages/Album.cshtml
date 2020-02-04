@@ -42,21 +42,25 @@ else if (Model.IsLoggedIn)
         <div class="album-info">@Model.Album.Description</div>
     }
     <div class="photos">
-        @if (!(Model.Album.UploadImages is null))
+        @if (Model.Album.HasUploadImages)
         {
-            foreach (var uploadImage in Model.Album.UploadImages)
+            foreach (var uploadImage in Model.Album.SortedUploadImages)
             {
                 <div class="photo-block">
-                    <a href="/images/@uploadImage.Value.UriPath" target="@uploadImage.Value.ProcessedFileName">
-                        <img class="thumb" src="/images/@uploadImage.Value.ThumbnailUriPath" />
+                    <a href="/images/@uploadImage.UriPath" target="@uploadImage.ProcessedFileName">
+                        <img class="thumb" src="/images/@uploadImage.ThumbnailUriPath" />
                     </a>
                     @if (Model.IsLoggedIn)
                     {
-                        <div class="editing-area">
-                            Display Order 
-                            <input type="number" class="display-order" id="@uploadImage.Key" value="@uploadImage.Value.DisplayOrder" 
-                                   onchange="album.updateUploadImageDisplayOrderAsync('@Model.Album.Name', '@uploadImage.Key', this.value)" />
-                        </div>
+                <div class="editing-area">
+                    <strong>Display Order</strong> &nbsp;
+                    <span id="span_@uploadImage.ProcessedFileName">@uploadImage.DisplayOrder</span> &nbsp;
+                    <input style="display:none;" type="number" class="display-order" id="number_@uploadImage.ProcessedFileName"
+                           value="@uploadImage.DisplayOrder"
+                           onchange="album.updateUploadImageDisplayOrderAsync('@Model.Album.Name', '@uploadImage.ProcessedFileName', this.value)" /> &nbsp;
+                    <img id="icon_@uploadImage.ProcessedFileName" class="edit-icon" src="/images/edit.svg"
+                         onclick="album.toggleEditState('@uploadImage.ProcessedFileName', true)" />
+                </div>
                     }
                 </div>
             }
