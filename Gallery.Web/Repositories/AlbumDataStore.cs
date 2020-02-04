@@ -17,7 +17,8 @@ namespace Gallery.Web.Repositories
             var folderPath = Path.GetDirectoryName(filePath);
             if (!Directory.Exists(folderPath))
                 Directory.CreateDirectory(folderPath);
-            _db = new LiteDatabase($"Filename={filePath}");
+            var connectionString = new ConnectionString { Mode = LiteDB.FileMode.Exclusive, Filename = filePath };
+            _db = new LiteDatabase(connectionString);
 
             Albums = _db.GetCollection<Album>(nameof(Album));
             Albums.EnsureIndex(x => x.Name, true);

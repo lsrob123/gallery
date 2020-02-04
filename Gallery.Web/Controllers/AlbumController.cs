@@ -24,7 +24,7 @@ namespace Gallery.Web.Controllers
         public IActionResult UpdateUploadImageDisplayOrder([FromRoute]string albumName, 
             [FromRoute]string processedFileName, [FromBody] UpdateUploadImageDisplayOrderRequest request)
         {
-            var result = _albumService.UpdateUploadImageDisplayOrder(albumName, $"{processedFileName}.jpg", request.DisplayOrder);
+            var result = _albumService.UpdateUploadImageDisplayOrder(albumName, processedFileName, request.DisplayOrder);
             return result.ProcessResult switch
             {
                 ProcessResult.NotFound => NotFound(),

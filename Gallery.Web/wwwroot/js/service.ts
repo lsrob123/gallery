@@ -9,10 +9,15 @@
         const request = {
             displayOrder: parseInt(value)
         };
-        processedFileName = processedFileName.toLowerCase().replace('.jpg', '');
+        processedFileName = processedFileName.toLowerCase();
+        //.replace('.jpg', '').replace('.png', '');
+        //TODO: Replace with regex.
         const uri = `/api/album/${albumName}/image/${processedFileName}`;
         const rawResponse = await fetch(uri, {
             method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify(request)
         });
 

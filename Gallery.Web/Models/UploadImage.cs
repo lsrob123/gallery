@@ -14,7 +14,7 @@ namespace Gallery.Web.Models
         public UploadImage(IFormFile formFile, string processedFileName, string albumRootPath, string albumName)
         {
             FormFile = formFile;
-            ProcessedFileName = processedFileName.Replace('_', '-').Replace(' ', '-');
+            ProcessedFileName = processedFileName.Replace('_', '-').Replace(' ', '-').ToLower();
             if (string.IsNullOrWhiteSpace(ProcessedFileName))
                 return;
 

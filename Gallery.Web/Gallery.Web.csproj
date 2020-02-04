@@ -29,4 +29,10 @@
     <PackageReference Include="LiteDB" Version="4.1.4" />
     <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
   </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Remove="wwwroot\js\api-call-result.ts" />
+    <TypeScriptCompile Remove="wwwroot\js\service.ts" />
+    <TypeScriptCompile Remove="wwwroot\js\settings.ts" />
+    <TypeScriptCompile Remove="wwwroot\js\site.ts" />
+  </ItemGroup>
 </Project>

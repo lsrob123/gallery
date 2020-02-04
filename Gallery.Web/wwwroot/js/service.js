@@ -45,10 +45,13 @@ var Service = /** @class */ (function () {
                         request = {
                             displayOrder: parseInt(value)
                         };
-                        processedFileName = processedFileName.toLowerCase().replace('.jpg', '');
+                        processedFileName = processedFileName.toLowerCase();
                         uri = "/api/album/" + albumName + "/image/" + processedFileName;
                         return [4 /*yield*/, fetch(uri, {
                                 method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
                                 body: JSON.stringify(request)
                             })];
                     case 1:
